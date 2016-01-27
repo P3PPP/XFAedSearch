@@ -1,6 +1,6 @@
 # XFAedSearch (work in progress)
 
-AED検索アプリ
+Xamarin.Forms製 AED検索アプリ
 
 元データはAEDオープンデータプラットフォーム(http://hatsunejournal.jp/w8/AEDOpendata/)
 
