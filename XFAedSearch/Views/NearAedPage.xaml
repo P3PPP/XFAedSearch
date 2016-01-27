@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+			 xmlns:views="clr-namespace:XFAedSearch.Views;assembly=XFAedSearch"
+			 x:Class="XFAedSearch.Views.NearAedPage">
+	<ContentPage.Content>
+		<AbsoluteLayout>
+			<StackLayout AbsoluteLayout.LayoutFlags="All"
+						 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+						 Spacing="0">
+				<maps:Map x:Name="map"
+						  HorizontalOptions="FillAndExpand"
+						  VerticalOptions="FillAndExpand"
+						  IsShowingUser="true"
+						  HasScrollEnabled="true"
+						  HasZoomEnabled="true"
+						  MapType="Street"
+						  />
+
+				<Grid BindingContext="{Binding AedsViewModel.Value}" 
+					  VerticalOptions="End"
+					  Padding="0, 5"
+					  ColumnSpacing="0"
+					  RowSpacing="0"
+					  BackgroundColor="#888888"
+					  >
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="44" />
+						<ColumnDefinition Width="5" />
+						<ColumnDefinition Width="10" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="10" />
+						<ColumnDefinition Width="5" />
+						<ColumnDefinition Width="44" />
+					</Grid.ColumnDefinitions>
+
+					<Button Grid.Column="0"
+						    HorizontalOptions="CenterAndExpand"
+						    VerticalOptions="CenterAndExpand"
+						    Text="⬆︎" 
+						    Clicked="FlyOutButtonClicked"
+						    />
+	<!--				<Label Grid.Column="0"
+						   HorizontalOptions="Center"
+						   VerticalOptions="Center"
+						   Text="⬆︎" 
+						   />
+					<BoxView Grid.Column="0"
+							 Color="Transparent">
+						<BoxView.GestureRecognizers>
+							<TapGestureRecognizer Tapped="FlyOutButtonClicked"/>
+						</BoxView.GestureRecognizers>
+					</BoxView>
+	-->
+
+					<Label Grid.Column="3"
+						   VerticalOptions="CenterAndExpand"
+						   HorizontalOptions="CenterAndExpand" 
+						   Text="{Binding SelectedAed.LocationName}"
+						   LineBreakMode="TailTruncation"
+						   TextColor="#EEEEEE"
+						   >
+						<Label.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding RaiseFocusToSelectedAedCommand}"/>
+						</Label.GestureRecognizers>
+					</Label>
+
+					<BoxView Grid.Column="2"
+							 Grid.ColumnSpan="2"
+							 Color="#33DDDDDD"
+							 WidthRequest="44"
+							 HorizontalOptions="Start"
+							 >
+						<BoxView.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding PreviousCommand}"/>
+						</BoxView.GestureRecognizers>
+					</BoxView>
+
+					<BoxView Grid.Column="3"
+							 Grid.ColumnSpan="2"
+							 Color="#33DDDDDD"
+							 WidthRequest="44"
+							 HorizontalOptions="End"
+							 >
+						<BoxView.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding NextCommand}"/>
+						</BoxView.GestureRecognizers>
+					</BoxView>
+				</Grid>
+			</StackLayout>
+
+			<Button Text="≡" 
+					AbsoluteLayout.LayoutFlags="XProportional"
+					AbsoluteLayout.LayoutBounds="0.05, 20, AutoSize, AutoSize"
+					FontSize="36"
+					Clicked="HamburgerButtonClicked"
+					/>
+
+			<Button Text="付近のAEDを探す" 
+					AbsoluteLayout.LayoutFlags="XProportional"
+					AbsoluteLayout.LayoutBounds="0.5, 20, AutoSize, AutoSize"
+					Command="{Binding SearchNearAedsCommand}"
+					CommandParameter="{x:Reference map}"
+					/>
+
+			<Button Text="◎"
+					AbsoluteLayout.LayoutFlags="XProportional"
+					AbsoluteLayout.LayoutBounds="0.95, 20, AutoSize, AutoSize"
+					FontSize="36"
+					Clicked="MoveToCurrentPositionButtonClicked"
+					>
+				<Button.IsVisible>
+					<OnPlatform x:TypeArguments="x:Boolean"
+								iOS="true"
+								Android="false"
+								WinPhone="true" />
+				</Button.IsVisible>
+			</Button>
+
+
+			<!-- 下から出てくるやつ -->
+			<Grid x:Name="flyOut"
+				  AbsoluteLayout.LayoutFlags="All"
+				  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+				  BindingContext="{Binding AedsViewModel.Value}"
+				  IsVisible="false"
+				  BackgroundColor="#AAFFFFFF"
+				  >
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto">
+						<RowDefinition.Height>
+							<OnPlatform x:TypeArguments="GridLength"
+										iOS="15"
+										Android="0"
+										WinPhone="0" />
+						</RowDefinition.Height>
+					</RowDefinition>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="44" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+
+				<BoxView Grid.Row="0"
+						 Grid.RowSpan="2"
+						 Grid.Column="0"
+						 Grid.ColumnSpan="2"
+						 VerticalOptions="FillAndExpand"
+						 Color="White"/>
+				<Button Grid.Row="1"
+						Grid.Column="0"
+						Text="⬇︎"
+						Clicked="FlyOutButtonClicked"
+						HorizontalOptions="CenterAndExpand"
+						VerticalOptions="CenterAndExpand"
+						/>
+				<Label Grid.Row="1"
+					   Grid.Column="0"
+					   Grid.ColumnSpan="2"
+					   Text="付近のAED"
+					   TextColor="Black"
+					   VerticalOptions="CenterAndExpand"
+					   HorizontalOptions="CenterAndExpand"
+					   />
+				<ListView Grid.Row="2"
+						  Grid.Column="0"
+						  Grid.ColumnSpan="2"
+						  HasUnevenRows="true"
+						  ItemsSource="{Binding Aeds}"
+						  SelectedItem="{Binding Path=SelectedAed, Mode=TwoWay}"
+						  BackgroundColor="Transparent"
+						  >
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<ViewCell.View>
+									<StackLayout Padding="15,5,15,5"
+												 Spacing="0" >
+										<Label Text="{Binding LocationName}"
+											   LineBreakMode="WordWrap" />
+										<Label Text="{Binding Detail}"
+											   TextColor="Gray"
+											   FontSize="Small"
+											   LineBreakMode="WordWrap" />
+									</StackLayout>
+								</ViewCell.View>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</Grid>
+
+			<ActivityIndicator IsRunning="{Binding IsUpdating.Value}"
+				   IsVisible="{Binding IsUpdating.Value}"
+				   AbsoluteLayout.LayoutFlags="PositionProportional"
+				   AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" 
+				   />
+
+		</AbsoluteLayout>
+	</ContentPage.Content>
+</ContentPage>
