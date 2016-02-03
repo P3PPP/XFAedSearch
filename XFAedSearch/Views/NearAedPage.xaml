@@ -3,6 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
 			 xmlns:views="clr-namespace:XFAedSearch.Views;assembly=XFAedSearch"
+ 			 xmlns:nControl="clr-namespace:NControl.Abstractions;assembly=NControl"
+
 			 x:Class="XFAedSearch.Views.NearAedPage">
 	<ContentPage.Content>
 		<AbsoluteLayout>
@@ -35,24 +37,13 @@
 						<ColumnDefinition Width="44" />
 					</Grid.ColumnDefinitions>
 
-					<Button Grid.Column="0"
-						    HorizontalOptions="CenterAndExpand"
-						    VerticalOptions="CenterAndExpand"
-						    Text="⬆︎" 
-						    Clicked="FlyOutButtonClicked"
-						    />
-	<!--				<Label Grid.Column="0"
-						   HorizontalOptions="Center"
-						   VerticalOptions="Center"
-						   Text="⬆︎" 
-						   />
-					<BoxView Grid.Column="0"
-							 Color="Transparent">
-						<BoxView.GestureRecognizers>
-							<TapGestureRecognizer Tapped="FlyOutButtonClicked"/>
-						</BoxView.GestureRecognizers>
-					</BoxView>
-	-->
+					<views:GraphicIconButton 
+							Grid.Column="0"
+							Graphic="{StaticResource ListIcon}"
+							IconPadding="10"
+							FillColor="Accent"
+							BackColor="Transparent"
+							Clicked="FlyOutButtonClicked" />
 
 					<Label Grid.Column="3"
 						   VerticalOptions="CenterAndExpand"
@@ -90,12 +81,15 @@
 				</Grid>
 			</StackLayout>
 
-			<Button Text="≡" 
+
+			<views:GraphicIconButton 
 					AbsoluteLayout.LayoutFlags="XProportional"
 					AbsoluteLayout.LayoutBounds="0.05, 20, AutoSize, AutoSize"
-					FontSize="36"
-					Clicked="HamburgerButtonClicked"
-					/>
+					Graphic="{StaticResource HamburgerIcon}"
+					IconPadding="10"
+					FillColor="Accent"
+					BackColor="White"
+					Clicked="HamburgerButtonClicked" />
 
 			<Button Text="付近のAEDを探す" 
 					AbsoluteLayout.LayoutFlags="XProportional"
@@ -104,20 +98,21 @@
 					CommandParameter="{x:Reference map}"
 					/>
 
-			<Button Text="◎"
+			<views:GraphicIconButton 
 					AbsoluteLayout.LayoutFlags="XProportional"
 					AbsoluteLayout.LayoutBounds="0.95, 20, AutoSize, AutoSize"
-					FontSize="36"
-					Clicked="MoveToCurrentPositionButtonClicked"
-					>
-				<Button.IsVisible>
+					Graphic="{StaticResource CurrentLocationIcon}"
+					IconPadding="10"
+					FillColor="Accent"
+					BackColor="White"
+					Clicked="MoveToCurrentPositionButtonClicked" >
+				<views:GraphicIconButton.IsVisible>
 					<OnPlatform x:TypeArguments="x:Boolean"
 								iOS="true"
 								Android="false"
 								WinPhone="true" />
-				</Button.IsVisible>
-			</Button>
-
+				</views:GraphicIconButton.IsVisible>
+			</views:GraphicIconButton>
 
 			<!-- 下から出てくるやつ -->
 			<Grid x:Name="flyOut"
@@ -145,20 +140,21 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 
-
 				<BoxView Grid.Row="0"
 						 Grid.RowSpan="2"
 						 Grid.Column="0"
 						 Grid.ColumnSpan="2"
 						 VerticalOptions="FillAndExpand"
 						 Color="White"/>
-				<Button Grid.Row="1"
+
+				<views:GraphicIconButton 
+						Grid.Row="1"
 						Grid.Column="0"
-						Text="⬇︎"
-						Clicked="FlyOutButtonClicked"
-						HorizontalOptions="CenterAndExpand"
-						VerticalOptions="CenterAndExpand"
-						/>
+						Graphic="{StaticResource ListIcon}"
+						IconPadding="10"
+						FillColor="Accent"
+						BackColor="Transparent"
+						Clicked="FlyOutButtonClicked" />
 				<Label Grid.Row="1"
 					   Grid.Column="0"
 					   Grid.ColumnSpan="2"

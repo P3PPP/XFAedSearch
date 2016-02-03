@@ -14,6 +14,7 @@ namespace XFAedSearch.iOS
 		{
 			global::Xamarin.Forms.Forms.Init();
 			global::Xamarin.FormsMaps.Init();
+			NControl.iOS.NControlViewRenderer.Init();
 
 			LoadApplication(new App());
 

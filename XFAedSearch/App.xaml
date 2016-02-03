@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:local="clr-namespace:XFAedSearch;assembly=XFAedSearch"
+			 xmlns:views="clr-namespace:XFAedSearch.Views;assembly=XFAedSearch"
+			 xmlns:nGraphics="clr-namespace:NGraphics;assembly=NGraphics"
+			 x:Class="XFAedSearch.App">
+	<Application.Resources>
+		<ResourceDictionary>
+			<views:SvgIcons x:Key="CurrentLocationIcon" x:FactoryMethod="Load">
+				<x:Arguments>
+					<x:String>CurrentLocation.svg</x:String>
+				</x:Arguments>
+			</views:SvgIcons>
+			<views:SvgIcons x:Key="HamburgerIcon" x:FactoryMethod="Load">
+				<x:Arguments>
+					<x:String>Hamburger.svg</x:String>
+				</x:Arguments>
+			</views:SvgIcons>
+			<views:SvgIcons x:Key="ListIcon" x:FactoryMethod="Load">
+				<x:Arguments>
+					<x:String>List.svg</x:String>
+				</x:Arguments>
+			</views:SvgIcons>
+			<views:SvgIcons x:Key="RouteIcon" x:FactoryMethod="Load">
+				<x:Arguments>
+					<x:String>Route.svg</x:String>
+				</x:Arguments>
+			</views:SvgIcons>
+		</ResourceDictionary>
+	</Application.Resources>
+</Application>
