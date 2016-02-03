@@ -7,26 +7,26 @@
 			 x:Class="XFAedSearch.App">
 	<Application.Resources>
 		<ResourceDictionary>
-			<views:SvgIcons x:Key="CurrentLocationIcon" x:FactoryMethod="Load">
+			<views:SvgIcon x:Key="CurrentLocationIcon" x:FactoryMethod="Load">
 				<x:Arguments>
 					<x:String>CurrentLocation.svg</x:String>
 				</x:Arguments>
-			</views:SvgIcons>
-			<views:SvgIcons x:Key="HamburgerIcon" x:FactoryMethod="Load">
+			</views:SvgIcon>
+			<views:SvgIcon x:Key="HamburgerIcon" x:FactoryMethod="Load">
 				<x:Arguments>
 					<x:String>Hamburger.svg</x:String>
 				</x:Arguments>
-			</views:SvgIcons>
-			<views:SvgIcons x:Key="ListIcon" x:FactoryMethod="Load">
+			</views:SvgIcon>
+			<views:SvgIcon x:Key="ListIcon" x:FactoryMethod="Load">
 				<x:Arguments>
 					<x:String>List.svg</x:String>
 				</x:Arguments>
-			</views:SvgIcons>
-			<views:SvgIcons x:Key="RouteIcon" x:FactoryMethod="Load">
+			</views:SvgIcon>
+			<views:SvgIcon x:Key="RouteIcon" x:FactoryMethod="Load">
 				<x:Arguments>
 					<x:String>Route.svg</x:String>
 				</x:Arguments>
-			</views:SvgIcons>
+			</views:SvgIcon>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>
