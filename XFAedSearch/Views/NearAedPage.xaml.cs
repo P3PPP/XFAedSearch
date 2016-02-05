@@ -52,7 +52,7 @@ namespace XFAedSearch.Views
 		private async void MoveToCurrentPositionButtonClicked(object sender, EventArgs e)
 		{
 			var locator = CrossGeolocator.Current;
-			locator.DesiredAccuracy = 100;
+			locator.DesiredAccuracy = 300;
 			var currentLocation = await locator.GetPositionAsync(10000);
 
 			map.MoveToRegion(MapSpan.FromCenterAndRadius(
