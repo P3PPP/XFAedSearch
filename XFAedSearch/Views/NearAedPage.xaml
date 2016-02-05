@@ -49,9 +49,10 @@
 					<views:GraphicIconButton 
 							Grid.Column="0"
 							Graphic="{StaticResource ListIcon}"
-							IconPadding="10"
+							IconScale="0.8"
 							FillColor="Accent"
 							BackColor="Transparent"
+							OverpaintEnabled="true"
 							Clicked="FlyOutButtonClicked" />
 
 					<Label Grid.Column="3"
@@ -95,9 +96,10 @@
 					AbsoluteLayout.LayoutFlags="XProportional"
 					AbsoluteLayout.LayoutBounds="0.05, 20, AutoSize, AutoSize"
 					Graphic="{StaticResource HamburgerIcon}"
-					IconPadding="10"
+					IconScale="0.7"
 					FillColor="Accent"
 					BackColor="White"
+					OverpaintEnabled="true"
 					Clicked="HamburgerButtonClicked" />
 
 			<Button Text="付近のAEDを探す" 
@@ -111,17 +113,11 @@
 					AbsoluteLayout.LayoutFlags="XProportional"
 					AbsoluteLayout.LayoutBounds="0.95, 20, AutoSize, AutoSize"
 					Graphic="{StaticResource CurrentLocationIcon}"
-					IconPadding="10"
+					IconScale="0.8"
 					FillColor="Accent"
 					BackColor="White"
-					Clicked="MoveToCurrentPositionButtonClicked" >
-				<views:GraphicIconButton.IsVisible>
-					<OnPlatform x:TypeArguments="x:Boolean"
-								iOS="true"
-								Android="false"
-								WinPhone="true" />
-				</views:GraphicIconButton.IsVisible>
-			</views:GraphicIconButton>
+					OverpaintEnabled="true"
+					Clicked="MoveToCurrentPositionButtonClicked" />
 
 			<!-- 下から出てくるやつ -->
 			<Grid x:Name="flyOut"
@@ -160,9 +156,10 @@
 						Grid.Row="1"
 						Grid.Column="0"
 						Graphic="{StaticResource ListIcon}"
-						IconPadding="10"
+						IconScale="0.8"
 						FillColor="Accent"
 						BackColor="Transparent"
+						OverpaintEnabled="true"
 						Clicked="FlyOutButtonClicked" />
 				<Label Grid.Row="1"
 					   Grid.Column="0"

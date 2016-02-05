@@ -5,7 +5,6 @@ using NGraphics;
 using Xamarin.Forms;
 using System.Windows.Input;
 
-
 namespace XFAedSearch.Views
 {
 	public class GraphicIconButton : NControlView
@@ -55,6 +54,9 @@ namespace XFAedSearch.Views
 
 		protected override void OnPropertyChanged(string propertyName)
 		{
+			// [iOS]IsVisible=falseなLayoutにNControlViewを追加すると
+			// IsVisible=trueになった時にDrawingFunctionが呼ばれない件への対処
+
 			if(propertyName == "Parent")
 			{
 				Parent.PropertyChanged += ParentPropertyChanged;
@@ -64,6 +66,9 @@ namespace XFAedSearch.Views
 
 		void ParentPropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			// [iOS]IsVisible=falseなLayoutにNControlViewを追加すると
+			// IsVisible=trueになった時にDrawingFunctionが呼ばれない件への対処
+
 			if(e.PropertyName == "IsVisible" && 
 				true.Equals((Parent as VisualElement).IsVisible))
 			{
@@ -82,22 +87,38 @@ namespace XFAedSearch.Views
 		{
 			if(Graphic == null)
 				return;
-			
-			var transform = Transform.AspectFillRect(Graphic.ViewBox, rect.GetInflated(-IconPadding));
+
+			var padding = ((rect.Size * IconScale) - rect.Size) / 2;
+			var transform = Transform.AspectFillRect(Graphic.ViewBox, rect.GetInflated(padding));
 			var transformed = Graphic.TransformGeometry(transform);
 
-			var color = new NGraphics.Color(FillColor.R,
-				FillColor.G, FillColor.B, FillColor.A);
+			var color = new NGraphics.Color(
+				FillColor.R,
+				FillColor.G,
+				FillColor.B,
+				FillColor.A);
 
 			foreach(var element in transformed.Children)
 			{
-				ApplyColor(element, color);
+				if(OverpaintEnabled)
+				{
+					ApplyColor(element, color);
+				}
 				element.Draw(canvas);
 			}
 		}
 
 		private void ApplyColor(NGraphics.Element element, NGraphics.Color color)
 		{
+			var children = (element as Group)?.Children;
+			if(children != null)
+			{
+				foreach(var child in children)
+				{
+					ApplyColor(child, color);
+				}
+			}
+
 			if(element?.Pen != null)
 			{
 				element.Pen = new Pen(color, element.Pen.Width);
@@ -106,15 +127,6 @@ namespace XFAedSearch.Views
 			if(element?.Brush != null)
 			{
 				element.Brush = new SolidBrush(color);
-			}
-
-			var children = (element as Group)?.Children;
-			if(children != null)
-			{
-				foreach(var child in children)
-				{
-					ApplyColor(child, color);
-				}
 			}
 		}
 
@@ -143,7 +155,7 @@ namespace XFAedSearch.Views
 			return true;
 		}
 
-		public event EventHandler<EventArgs> Clicked;	
+		public event EventHandler Clicked;	
 
 		#region BindableProperties
 		public static readonly BindableProperty CommandProperty =
@@ -167,7 +179,6 @@ namespace XFAedSearch.Views
 			get { return (object)GetValue(CommandParameterProperty); }
 			set { SetValue(CommandParameterProperty, value); } 
 		}
-
 
 		public static readonly BindableProperty FillColorProperty =
 			BindableProperty.Create("FillColor", typeof(Xamarin.Forms.Color),
@@ -193,16 +204,28 @@ namespace XFAedSearch.Views
 			set { SetValue(BackColorProperty, value); } 
 		}
 
-		public static readonly BindableProperty IconPaddingProperty =
-			BindableProperty.Create("IconPadding", typeof(double),
+		public static readonly BindableProperty IconScaleProperty =
+			BindableProperty.Create("IconScale", typeof(double),
 				typeof(GraphicIconButton),
-				0.0,
+				1.0,
 				propertyChanged:(bindable, oldValue, newValue) => ((GraphicIconButton)bindable).icon.Invalidate());
 
-		public double IconPadding
+		public double IconScale
 		{
-			get { return (double)GetValue(IconPaddingProperty); }
-			set { SetValue(IconPaddingProperty, value); } 
+			get { return (double)GetValue(IconScaleProperty); }
+			set { SetValue(IconScaleProperty, value); } 
+		}
+
+		public static readonly BindableProperty OverpaintEnabledProperty =
+			BindableProperty.Create("OverpaintEnabled", typeof(bool),
+				typeof(GraphicIconButton),
+				false,
+				propertyChanged:(bindable, oldValue, newValue) => ((GraphicIconButton)bindable).icon.Invalidate());
+
+		public bool OverpaintEnabled
+		{
+			get { return (bool)GetValue(OverpaintEnabledProperty); }
+			set { SetValue(OverpaintEnabledProperty, value); } 
 		}
 
 		public static readonly BindableProperty GraphicProperty =
