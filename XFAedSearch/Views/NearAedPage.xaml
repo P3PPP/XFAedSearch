@@ -18,7 +18,16 @@
 						  HasScrollEnabled="true"
 						  HasZoomEnabled="true"
 						  MapType="Street"
-						  />
+						  >
+					<maps:Map.Effects>
+						<Effect x:FactoryMethod="Resolve" >
+							<x:Arguments>
+								<x:String>P3PPP.SuppressMapButtonEffect</x:String>
+							</x:Arguments>
+						</Effect>
+					</maps:Map.Effects>
+				</maps:Map>
+
 
 				<Grid BindingContext="{Binding AedsViewModel.Value}" 
 					  VerticalOptions="End"
