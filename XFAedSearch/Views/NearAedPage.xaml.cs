@@ -19,6 +19,7 @@ namespace XFAedSearch.Views
 	{
 		readonly string FocusToKey = "/Map/FocusTo";
 		readonly string UpdateNearAedsKey = "/Map/Pins/Update/NearAeds";
+		readonly string NearAedsFailedKey = "/SearchNearAeds/?Result=Failed";
 
 		public NearAedPage ()
 		{
@@ -35,7 +36,8 @@ namespace XFAedSearch.Views
 				(_, position) =>
 			{
 				Console.WriteLine(@"Message received: key=""/Map/FocusTo""");
-				map.MoveToRegion(MapSpan.FromCenterAndRadius(position, map.VisibleRegion.Radius));
+				var radius = map?.VisibleRegion?.Radius ?? Distance.FromMeters(Settings.RegionRadius);
+				map.MoveToRegion(MapSpan.FromCenterAndRadius(position, radius));
 			});
 
 			MessagingCenter.Subscribe<AedsViewModel, List<AedViewModel>>(
@@ -112,6 +114,7 @@ namespace XFAedSearch.Views
 			map.Behaviors.Clear();
 			MessagingCenter.Unsubscribe<AedsViewModel, Position>(this, FocusToKey);
 			MessagingCenter.Unsubscribe<AedsViewModel, List<AedInfo>>(this, UpdateNearAedsKey);
+			MessagingCenter.Unsubscribe<NearAedPageViewModel, string>(this, NearAedsFailedKey);
 
 			SaveRegion();
 
