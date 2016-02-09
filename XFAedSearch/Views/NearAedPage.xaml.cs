@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using XFAedSearch.Models;
 using XFAedSearch.ViewModels;
 using Plugin.Geolocator;
+using XFMapExtensions;
 
 namespace XFAedSearch.Views
 {
@@ -45,19 +46,28 @@ namespace XFAedSearch.Views
 				Console.WriteLine(@"Message received: key=""/Map/Pins/Update/NearAeds""");
 				UpdatePins(aeds);
 			});
+
+			MessagingCenter.Subscribe<NearAedPageViewModel, string>(
+				this,
+				NearAedsFailedKey,
+				(_, resourceKey) =>
+			{
+				Console.WriteLine(@"Message received: key=""/SearchNearAeds/?Result=Failed""");
+				object value;
+				Application.Current.Resources.TryGetValue(resourceKey, out value);
+				var message = value as string;
+				DisplayAlert("付近のAED検索", message, "OK");
+			});
 		}
 
 		public void MoveToReagion(MapSpan mapspan) => map.MoveToRegion(mapspan);
 
 		private async void MoveToCurrentPositionButtonClicked(object sender, EventArgs e)
 		{
-			var locator = CrossGeolocator.Current;
-			locator.DesiredAccuracy = 300;
-			var currentLocation = await locator.GetPositionAsync(10000);
-
+			var userLocation = mapExBehavior.UserLocation;
 			map.MoveToRegion(MapSpan.FromCenterAndRadius(
-				new Position(currentLocation.Latitude, currentLocation.Longitude),
-				map.VisibleRegion.Radius));
+				userLocation, map.VisibleRegion.Radius));
+			return;
 		}
 
 		private async void FlyOutButtonClicked(object sender, EventArgs e)

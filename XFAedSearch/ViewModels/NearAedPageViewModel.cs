@@ -26,20 +26,24 @@ namespace XFAedSearch.ViewModels
 
 		public ReactiveProperty<bool> IsUpdating { get; private set;}
 
+		public ReactiveProperty<Position> UserLocation { get; private set;}
+
 		public ReactiveCommand<Map> SearchNearAedsCommand { get; private set;}
 
 		public NearAedPageViewModel ()
 		{
 			AedsViewModel = new ReactiveProperty<AedsViewModel>(new AedsViewModel());
 			IsUpdating = new ReactiveProperty<bool>(false);
+			UserLocation = new ReactiveProperty<Position>(new Position(Settings.RegionLatitude, Settings.RegionLongitude));
 			SearchNearAedsCommand = IsUpdating.Select(x => !x).ToReactiveCommand<Map>();
 
 			SearchNearAedsCommand.Subscribe(async map =>
 			{
-				if(map != null && map.VisibleRegion != null)
+				if(map?.VisibleRegion != null)
 				{
-					Settings.RegionLatitude = map.VisibleRegion.Center.Latitude;
-					Settings.RegionLongitude = map.VisibleRegion.Center.Longitude;
+					var position = UserLocation.Value;
+					Settings.RegionLatitude = position.Latitude;
+					Settings.RegionLongitude = position.Longitude;
 					Settings.RegionRadius = map.VisibleRegion.Radius.Meters;
 				}
 
@@ -54,16 +58,13 @@ namespace XFAedSearch.ViewModels
 
 			IsUpdating.Value = true;
 
-			System.Diagnostics.Stopwatch stopwatch;
+			var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+			var radius = Settings.RegionRadius;
+			var position = UserLocation.Value;
 
 			try
 			{
-				var radius = Settings.RegionRadius;
-				var locator = CrossGeolocator.Current;
-				locator.DesiredAccuracy = 100;
-				stopwatch = System.Diagnostics.Stopwatch.StartNew();
-				var position = await locator.GetPositionAsync(60000);
-
 				var nearestAedTask = apiClient.NearAedAsync(position.Latitude, position.Longitude);
 				var nearAedsTask = apiClient.AedSearchAsync(position.Latitude, position.Longitude,
 					(int)(radius * 1.2));

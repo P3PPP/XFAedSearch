@@ -25,6 +25,7 @@ namespace XFAedSearch.Views
 			InitializeComponent();
 
 			var nearAedPageViewModel = new NearAedPageViewModel();
+			nearAedPageViewModel.UserLocation.Value = new Position(Settings.RegionLatitude, Settings.RegionLongitude);
 
 			MenuItems = new List<MenuItem> {
 				new MenuItem {

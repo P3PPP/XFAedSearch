@@ -3,8 +3,8 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
 			 xmlns:views="clr-namespace:XFAedSearch.Views;assembly=XFAedSearch"
+			 xmlns:mapEx="clr-namespace:XFMapExtensions;assembly=XFAedSearch"
  			 xmlns:nControl="clr-namespace:NControl.Abstractions;assembly=NControl"
-
 			 x:Class="XFAedSearch.Views.NearAedPage">
 	<ContentPage.Content>
 		<AbsoluteLayout>
@@ -19,13 +19,10 @@
 						  HasZoomEnabled="true"
 						  MapType="Street"
 						  >
-					<maps:Map.Effects>
-						<Effect x:FactoryMethod="Resolve" >
-							<x:Arguments>
-								<x:String>P3PPP.SuppressMapButtonEffect</x:String>
-							</x:Arguments>
-						</Effect>
-					</maps:Map.Effects>
+					<maps:Map.Behaviors>
+						<mapEx:MapExtensionBehavior x:Name="mapExBehavior"
+												 UserLocation="{Binding UserLocation.Value, Mode=TwoWay}"/>
+					</maps:Map.Behaviors>
 				</maps:Map>
 
 

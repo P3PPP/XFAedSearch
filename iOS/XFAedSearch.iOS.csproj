@@ -168,6 +168,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="MapEffect.cs" />
   </ItemGroup>
   <Import Project="..\XFAedSearch\XFAedSearch.projitems" Label="Shared" Condition="Exists('..\XFAedSearch\XFAedSearch.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
