@@ -23,6 +23,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\GraphicIconButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SvgIcon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\RoundedButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\InvertConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MapExtensionBehavior.cs" />
   </ItemGroup>
   <ItemGroup>

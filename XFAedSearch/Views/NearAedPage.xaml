@@ -6,6 +6,11 @@
 			 xmlns:mapEx="clr-namespace:XFMapExtensions;assembly=XFAedSearch"
  			 xmlns:nControl="clr-namespace:NControl.Abstractions;assembly=NControl"
 			 x:Class="XFAedSearch.Views.NearAedPage">
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<views:InvertConverter x:Key="invertConverter"/>
+		</ResourceDictionary>
+	</ContentPage.Resources>
 	<ContentPage.Content>
 		<AbsoluteLayout>
 			<StackLayout AbsoluteLayout.LayoutFlags="All"
@@ -99,9 +104,17 @@
 					OverpaintEnabled="true"
 					Clicked="HamburgerButtonClicked" />
 
-			<Button Text="付近のAEDを探す" 
+			<views:RoundedButton
+					Text="付近のAEDを探す" 
 					AbsoluteLayout.LayoutFlags="XProportional"
 					AbsoluteLayout.LayoutBounds="0.5, 20, AutoSize, AutoSize"
+					HeightRequest="44"
+					Padding="22,0"
+					BackColor="White"
+					BorderColor="Accent"
+					BorderWidth="1"
+					TextColor="Accent"
+					IsEnabled="{Binding IsUpdating.Value, Converter={StaticResource invertConverter}}"
 					Command="{Binding SearchNearAedsCommand}"
 					CommandParameter="{x:Reference map}"
 					/>
