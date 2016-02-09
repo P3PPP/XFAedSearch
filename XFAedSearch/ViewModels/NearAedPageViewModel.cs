@@ -63,39 +63,44 @@ namespace XFAedSearch.ViewModels
 			var radius = Settings.RegionRadius;
 			var position = UserLocation.Value;
 
+			Task<List<AedInfo>> nearestAedTask;
+			Task<List<AedInfo>> nearAedsTask;
 			try
 			{
-				var nearestAedTask = apiClient.NearAedAsync(position.Latitude, position.Longitude);
-				var nearAedsTask = apiClient.AedSearchAsync(position.Latitude, position.Longitude,
-					(int)(radius * 1.2));
-
-				await Task.WhenAll(nearestAedTask, nearAedsTask);
-
-				var newAeds = nearestAedTask.Result
-					.Concat(nearAedsTask.Result)
-					.GroupBy(aed => aed.Id)
-					.Select(group => new AedViewModel(group.First()))
-					.ToList();
-
-				Device.BeginInvokeOnMainThread(() =>
+				using(nearestAedTask = new ApiClient().NearAedAsync(position.Latitude, position.Longitude))
+				using(nearAedsTask = new ApiClient().AedSearchAsync(position.Latitude, position.Longitude,
+					(int)(radius * 1.2)))
 				{
-					AedsViewModel.Value.Aeds = newAeds;
-				});
+					await Task.WhenAll(nearestAedTask, nearAedsTask).ConfigureAwait(false);
+				}
 			}
 			catch(Exception exception)
 			{
+				IsUpdating.Value = false;
+
 				Console.WriteLine(exception);
 				Console.WriteLine($"{stopwatch.ElapsedMilliseconds} ms");
-				Console.WriteLine(@"Message published: key=""/SearchNearAeds/?Result=Failed""");
+				Console.WriteLine(@"Message published: key=""/SearchNearAeds/?Result=Failed"":AedApiRequestFailedMessage");
 				Device.BeginInvokeOnMainThread(() =>
 				{
-					MessagingCenter.Send(this, "/SearchNearAeds/?Result=Failed");
+					MessagingCenter.Send(this, "/SearchNearAeds/?Result=Failed",
+						"AedApiRequestFailedMessage");
 				});
+				return;
 			}
-			finally
+
+			var newAeds = nearestAedTask.Result
+				.Concat(nearAedsTask.Result)
+				.GroupBy(aed => aed.Id)
+				.Select(group => new AedViewModel(group.First()))
+				.ToList();
+
+			Device.BeginInvokeOnMainThread(() =>
 			{
-				IsUpdating.Value = false;
-			}
+				AedsViewModel.Value.Aeds = newAeds;
+			});
+
+			IsUpdating.Value = false;
 		}
 	}
 }
