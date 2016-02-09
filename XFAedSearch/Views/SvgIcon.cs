@@ -21,7 +21,6 @@ namespace XFAedSearch.Views
 			{
 				graphic = Graphic.LoadSvg(reader);
 			}
-
 			return graphic;
 		}
 	}

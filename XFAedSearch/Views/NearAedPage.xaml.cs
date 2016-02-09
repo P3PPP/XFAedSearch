@@ -109,6 +109,7 @@ namespace XFAedSearch.Views
 
 		protected override void OnDisappearing()
 		{
+			map.Behaviors.Clear();
 			MessagingCenter.Unsubscribe<AedsViewModel, Position>(this, FocusToKey);
 			MessagingCenter.Unsubscribe<AedsViewModel, List<AedInfo>>(this, UpdateNearAedsKey);
 
@@ -126,7 +127,7 @@ namespace XFAedSearch.Views
 
 		private void UpdatePins(List<AedViewModel> aeds)
 		{
-			map.Pins.Clear();
+			map?.Pins?.Clear();
 			aeds?.ForEach(aed => {
 				var pin = new Pin {
 					Type = PinType.Place,
