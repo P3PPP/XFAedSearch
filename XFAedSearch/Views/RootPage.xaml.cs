@@ -35,12 +35,12 @@ namespace XFAedSearch.Views
 				},
 				new MenuItem {
 					Title = "プライバシーポリシー1",
-					PageType = typeof(PrivacyPlicyPage),
+					PageType = typeof(PrivacyPolicyPage),
 					ViewModel = new { Name = "Policy1" },
 				},
 				new MenuItem {
 					Title = "プライバシーポリシー2",
-					PageType = typeof(PrivacyPlicyPage),
+					PageType = typeof(PrivacyPolicyPage),
 					ViewModel = new { Name = "Policy2" },
 				},
 			};
@@ -82,9 +82,9 @@ namespace XFAedSearch.Views
 	}
 
 
-	public class PrivacyPlicyPage : ContentPage
+	public class PrivacyPolicyPage : ContentPage
 	{
-		public PrivacyPlicyPage()
+		public PrivacyPolicyPage()
 		{
 			var label = new Label {
 				VerticalOptions = LayoutOptions.CenterAndExpand,
