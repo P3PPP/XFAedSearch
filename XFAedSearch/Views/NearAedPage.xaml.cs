@@ -25,10 +25,8 @@ namespace XFAedSearch.Views
 		{
 			InitializeComponent ();
 
-			// 前回マップに表示していた位置を復元
-			map.MoveToRegion(MapSpan.FromCenterAndRadius(
-				new Position(Settings.RegionLatitude, Settings.RegionLongitude),
-				Distance.FromMeters(Settings.RegionRadius)));
+			// 中央揃えに見せるトリック
+			searchButton.SizeChanged += (sender, e) => searchButton.TranslationX = -(searchButton.Width / 2);
 
 			MessagingCenter.Subscribe<AedsViewModel, Position>(
 				this,
@@ -64,7 +62,7 @@ namespace XFAedSearch.Views
 
 		public void MoveToReagion(MapSpan mapspan) => map.MoveToRegion(mapspan);
 
-		private async void MoveToCurrentPositionButtonClicked(object sender, EventArgs e)
+		private void MoveToCurrentPositionButtonClicked(object sender, EventArgs e)
 		{
 			var userLocation = mapExBehavior.UserLocation;
 			map.MoveToRegion(MapSpan.FromCenterAndRadius(
@@ -96,16 +94,24 @@ namespace XFAedSearch.Views
 			masterDetail.IsPresented = !masterDetail.IsPresented;
 		}
 
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+
+			// 前回マップに表示していた位置を復元
+			map.MoveToRegion(MapSpan.FromCenterAndRadius(
+				new Position(Settings.RegionLatitude, Settings.RegionLongitude),
+				Distance.FromMeters(Settings.RegionRadius)));
+		}
+
 		protected override void OnBindingContextChanged()
 		{
 			base.OnBindingContextChanged();
 
-			var vm = BindingContext as NearAedPageViewModel;
-			if(vm != null &&
-				vm.AedsViewModel != null &&
-				vm.AedsViewModel.Value != null)
+			var aeds = (BindingContext as NearAedPageViewModel)?.AedsViewModel?.Value?.Aeds;
+			if(aeds != null )
 			{
-				UpdatePins(vm.AedsViewModel.Value.Aeds);
+				UpdatePins(aeds);
 			}
 		}
 

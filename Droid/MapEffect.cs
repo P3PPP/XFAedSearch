@@ -33,25 +33,22 @@ namespace XFMapExtensions.Platform.Droid
 			var zoomButton = mapView.FindViewById(1); // ズームボタン LinearLayout
 			if(zoomButton != null)
 			{
-				zoomButton.Visibility = Android.Views.ViewStates.Gone;
+				zoomButton.Visibility = Android.Views.ViewStates.Invisible;
 			}
 
 			var locationButton = mapView.FindViewById(2); // 現在位置ボタン ImageView
 			if(locationButton != null)
 			{
-				locationButton.Visibility = Android.Views.ViewStates.Gone;
+				locationButton.Visibility = Android.Views.ViewStates.Invisible;
 			}
 
 			var callback = new OnMapReadyCallback();
 			callback.MapReady += (sender, e) => {
 				googleMap = callback.GoogleMap;
 				googleMap.MyLocationChange += (sender2, e2) => {
-					behavior.UserLocation = new Xamarin.Forms.Maps.Position(
+					behavior.UserLocation = new Position(
 						e2.Location.Latitude,
 						e2.Location.Longitude);
-					
-//					XFAedSearch.Views.MapExtensions.SetUserLocation(Element, new Xamarin.Forms.Maps.Position(
-//						e2.Location.Latitude, e2.Location.Longitude));
 				};
 			};
 			mapView.GetMapAsync(callback);
@@ -62,10 +59,6 @@ namespace XFMapExtensions.Platform.Droid
 		}
 
 		#endregion
-
-//		protected override void OnElementPropertyChanged(PropertyChangedEventArgs e)
-//		{
-//		}
 
 		class OnMapReadyCallback : Java.Lang.Object, IOnMapReadyCallback
 		{

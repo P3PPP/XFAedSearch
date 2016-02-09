@@ -8,13 +8,20 @@
 			 x:Class="XFAedSearch.Views.NearAedPage">
 	<ContentPage.Resources>
 		<ResourceDictionary>
+			<views:NullValueConverter x:Key="selectedAedConverter" SubstituteValue="付近にAEDが見つかりません" />
 			<views:InvertConverter x:Key="invertConverter"/>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 	<ContentPage.Content>
-		<AbsoluteLayout>
-			<Grid AbsoluteLayout.LayoutFlags="All"
-				  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+		<RelativeLayout x:Name="relativeLayout"
+						HorizontalOptions="FillAndExpand"
+						VerticalOptions="FillAndExpand">
+			<Grid RelativeLayout.WidthConstraint = 
+					  "{ConstraintExpression Type=RelativeToParent, 
+					  Property=Width, Factor=1.0}"
+				  RelativeLayout.HeightConstraint = 
+					  "{ConstraintExpression Type=RelativeToParent, 
+					  Property=Height, Factor=1.0}"
 				  RowSpacing="0">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*"/>
@@ -68,7 +75,8 @@
 					<Label Grid.Column="3"
 						   VerticalOptions="CenterAndExpand"
 						   HorizontalOptions="CenterAndExpand" 
-						   Text="{Binding SelectedAed.LocationName}"
+						   Text="{Binding SelectedAed.LocationName,
+						   		  Converter={StaticResource selectedAedConverter} }"
 						   LineBreakMode="TailTruncation"
 						   TextColor="#EEEEEE"
 						   >
@@ -101,9 +109,12 @@
 				</Grid>
 			</Grid>
 
+			<!-- ハンバーガーメニューボタン -->
 			<views:GraphicIconButton 
-					AbsoluteLayout.LayoutFlags="XProportional"
-					AbsoluteLayout.LayoutBounds="0.05, 20, AutoSize, AutoSize"
+					RelativeLayout.XConstraint =
+					"{ConstraintExpression Type=Constant, Constant=10}"
+					RelativeLayout.YConstraint =
+					"{ConstraintExpression Type=Constant, Constant=20}"
 					Graphic="{StaticResource HamburgerIcon}"
 					IconScale="0.7"
 					FillColor="Accent"
@@ -111,10 +122,15 @@
 					OverpaintEnabled="true"
 					Clicked="HamburgerButtonClicked" />
 
+			<!-- AED検索ボタン、水平中央にするためC#側で小細工してる -->
 			<views:RoundedButton
+					x:Name="searchButton"
 					Text="付近のAEDを探す" 
-					AbsoluteLayout.LayoutFlags="XProportional"
-					AbsoluteLayout.LayoutBounds="0.5, 20, AutoSize, AutoSize"
+					RelativeLayout.XConstraint =
+					"{ConstraintExpression Type=RelativeToParent,
+					  Property=Width, Factor=0.5}"
+					RelativeLayout.YConstraint =
+					"{ConstraintExpression Type=Constant, Constant=20}"
 					HeightRequest="44"
 					Padding="22,0"
 					BackColor="White"
@@ -126,9 +142,14 @@
 					CommandParameter="{x:Reference map}"
 					/>
 
+			<!-- 現在位置へ移動ボタン -->
 			<views:GraphicIconButton 
-					AbsoluteLayout.LayoutFlags="XProportional"
-					AbsoluteLayout.LayoutBounds="0.95, 20, AutoSize, AutoSize"
+					RelativeLayout.XConstraint =
+					"{ConstraintExpression Type=RelativeToParent,
+					  Property=Width, Factor=1, Constant=-54}"
+					RelativeLayout.YConstraint =
+					"{ConstraintExpression Type=RelativeToParent,
+					  Property=Height, Factor=1, Constant=-104}"
 					Graphic="{StaticResource CurrentLocationIcon}"
 					IconScale="0.8"
 					FillColor="Accent"
@@ -138,8 +159,12 @@
 
 			<!-- 下から出てくるやつ -->
 			<Grid x:Name="flyOut"
-				  AbsoluteLayout.LayoutFlags="All"
-				  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+				   RelativeLayout.WidthConstraint =
+				   "{ConstraintExpression Type=RelativeToParent,
+				     Property=Width, Factor=1}"
+				   RelativeLayout.HeightConstraint =
+				   "{ConstraintExpression Type=RelativeToParent,
+				     Property=Height, Factor=1}"
 				  BindingContext="{Binding AedsViewModel.Value}"
 				  IsVisible="false"
 				  BackgroundColor="#AAFFFFFF"
@@ -216,10 +241,16 @@
 
 			<ActivityIndicator IsRunning="{Binding IsUpdating.Value}"
 				   IsVisible="{Binding IsUpdating.Value}"
-				   AbsoluteLayout.LayoutFlags="PositionProportional"
-				   AbsoluteLayout.LayoutBounds="0.5, 0.5, AutoSize, AutoSize" 
+				   HeightRequest="44"
+				   WidthRequest="44"
+				   RelativeLayout.XConstraint =
+				   "{ConstraintExpression Type=RelativeToParent,
+				     Property=Width, Factor=0.5, Constant=-22}"
+				   RelativeLayout.YConstraint =
+				   "{ConstraintExpression Type=RelativeToParent,
+				     Property=Height, Factor=0.5, Constant-22}"
 				   />
 
-		</AbsoluteLayout>
+		</RelativeLayout>
 	</ContentPage.Content>
 </ContentPage>
