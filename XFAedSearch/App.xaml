@@ -7,6 +7,7 @@
 			 x:Class="XFAedSearch.App">
 	<Application.Resources>
 		<ResourceDictionary>
+			<!-- ボタン用のアイコン -->
 			<views:SvgIcon x:Key="CurrentLocationIcon" x:FactoryMethod="Load">
 				<x:Arguments>
 					<x:String>CurrentLocation.svg</x:String>

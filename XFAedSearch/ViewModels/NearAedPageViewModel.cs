@@ -20,8 +20,6 @@ namespace XFAedSearch.ViewModels
 {
 	public class NearAedPageViewModel
 	{
-		private readonly ApiClient apiClient = new ApiClient();
-
 		public ReactiveProperty<AedsViewModel> AedsViewModel{ get; private set;}
 
 		public ReactiveProperty<bool> IsUpdating { get; private set;}
@@ -47,7 +45,7 @@ namespace XFAedSearch.ViewModels
 					Settings.RegionRadius = map.VisibleRegion.Radius.Meters;
 				}
 
-				await UpdateNearAeds();
+				await UpdateNearAeds().ConfigureAwait(false);
 			});
 		}
 
