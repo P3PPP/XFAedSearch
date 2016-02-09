@@ -13,9 +13,14 @@
 	</ContentPage.Resources>
 	<ContentPage.Content>
 		<AbsoluteLayout>
-			<StackLayout AbsoluteLayout.LayoutFlags="All"
-						 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
-						 Spacing="0">
+			<Grid AbsoluteLayout.LayoutFlags="All"
+				  AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+				  RowSpacing="0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="44"/>
+				</Grid.RowDefinitions>
+
 				<maps:Map x:Name="map"
 						  HorizontalOptions="FillAndExpand"
 						  VerticalOptions="FillAndExpand"
@@ -23,10 +28,12 @@
 						  HasScrollEnabled="true"
 						  HasZoomEnabled="true"
 						  MapType="Street"
+						  Grid.Row="0"
 						  >
 					<maps:Map.Behaviors>
-						<mapEx:MapExtensionBehavior x:Name="mapExBehavior"
-												 UserLocation="{Binding UserLocation.Value, Mode=TwoWay}"/>
+						<mapEx:MapExtensionBehavior
+							 x:Name="mapExBehavior"
+							 UserLocation="{Binding UserLocation.Value, Mode=TwoWay}"/>
 					</maps:Map.Behaviors>
 				</maps:Map>
 
@@ -37,6 +44,7 @@
 					  ColumnSpacing="0"
 					  RowSpacing="0"
 					  BackgroundColor="#888888"
+					  Grid.Row="1"
 					  >
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="44" />
@@ -91,8 +99,7 @@
 						</BoxView.GestureRecognizers>
 					</BoxView>
 				</Grid>
-			</StackLayout>
-
+			</Grid>
 
 			<views:GraphicIconButton 
 					AbsoluteLayout.LayoutFlags="XProportional"
