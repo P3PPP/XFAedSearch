@@ -23,6 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\GraphicIconButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SvgIcon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\NullValueConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\RoundedButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\InvertConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MapExtensionBehavior.cs" />
@@ -41,9 +42,11 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\CurrentLocation.svg" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\Hamburger.svg" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\List.svg" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\Route.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\ArrowLeft.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\ArrowRight.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\CurrentLocation.svg" />
   </ItemGroup>
 </Project>

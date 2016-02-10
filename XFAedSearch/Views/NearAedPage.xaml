@@ -10,6 +10,9 @@
 		<ResourceDictionary>
 			<views:NullValueConverter x:Key="selectedAedConverter" SubstituteValue="付近にAEDが見つかりません" />
 			<views:InvertConverter x:Key="invertConverter"/>
+			<Style TargetType="Label">
+				<Setter Property="TextColor" Value="{StaticResource ForeColorHex}" />
+			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 	<ContentPage.Content>
@@ -44,50 +47,60 @@
 					</maps:Map.Behaviors>
 				</maps:Map>
 
-
+				<!-- 下部バー -->
 				<Grid BindingContext="{Binding AedsViewModel.Value}" 
 					  VerticalOptions="End"
-					  Padding="0, 5"
+					  Padding="10, 0"
 					  ColumnSpacing="0"
 					  RowSpacing="0"
-					  BackgroundColor="#888888"
+					  BackgroundColor="{StaticResource BackColorHex}"
 					  Grid.Row="1"
 					  >
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="44" />
-						<ColumnDefinition Width="5" />
 						<ColumnDefinition Width="10" />
+						<ColumnDefinition Width="5" />
 						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="10" />
 						<ColumnDefinition Width="5" />
+						<ColumnDefinition Width="10" />
 						<ColumnDefinition Width="44" />
 					</Grid.ColumnDefinitions>
 
 					<views:GraphicIconButton 
 							Grid.Column="0"
 							Graphic="{StaticResource ListIcon}"
-							IconScale="0.8"
-							FillColor="Accent"
+							IconScale="0.7"
 							BackColor="Transparent"
-							OverpaintEnabled="true"
 							Clicked="FlyOutButtonClicked" />
 
 					<Label Grid.Column="3"
-						   VerticalOptions="CenterAndExpand"
-						   HorizontalOptions="CenterAndExpand" 
+						   VerticalOptions="FillAndExpand"
+						   HorizontalOptions="FillAndExpand" 
 						   Text="{Binding SelectedAed.LocationName,
 						   		  Converter={StaticResource selectedAedConverter} }"
 						   LineBreakMode="TailTruncation"
-						   TextColor="#EEEEEE"
+						   VerticalTextAlignment="Center"
+						   HorizontalTextAlignment="Center"
 						   >
 						<Label.GestureRecognizers>
 							<TapGestureRecognizer Command="{Binding RaiseFocusToSelectedAedCommand}"/>
 						</Label.GestureRecognizers>
 					</Label>
 
+					<!-- 左矢印 -->
+					<views:GraphicIconButton 
+							Grid.Column="2"
+							Grid.ColumnSpan="2"
+							WidthRequest="22"
+							HeightRequest="44"
+							HorizontalOptions="Start"
+							Graphic="{StaticResource ArrowLeftIcon}"
+							IconScale="0.7"
+							FillColor="{StaticResource ArrowColorHex}"
+							BackColor="Transparent"
+							/>
 					<BoxView Grid.Column="2"
 							 Grid.ColumnSpan="2"
-							 Color="#33DDDDDD"
 							 WidthRequest="44"
 							 HorizontalOptions="Start"
 							 >
@@ -96,9 +109,20 @@
 						</BoxView.GestureRecognizers>
 					</BoxView>
 
+					<!-- 右矢印 -->
+					<views:GraphicIconButton 
+							Grid.Column="3"
+							Grid.ColumnSpan="2"
+							WidthRequest="22"
+							HeightRequest="44"
+							HorizontalOptions="End"
+							Graphic="{StaticResource ArrowRightIcon}"
+							IconScale="0.7"
+							FillColor="{StaticResource ArrowColorHex}"
+							BackColor="Transparent"
+							/>
 					<BoxView Grid.Column="3"
 							 Grid.ColumnSpan="2"
-							 Color="#33DDDDDD"
 							 WidthRequest="44"
 							 HorizontalOptions="End"
 							 >
@@ -114,12 +138,10 @@
 					RelativeLayout.XConstraint =
 					"{ConstraintExpression Type=Constant, Constant=10}"
 					RelativeLayout.YConstraint =
-					"{ConstraintExpression Type=Constant, Constant=20}"
+					"{ConstraintExpression Type=RelativeToParent,
+					  Property=Height, Factor=1, Constant=-109}"
 					Graphic="{StaticResource HamburgerIcon}"
-					IconScale="0.7"
-					FillColor="Accent"
-					BackColor="White"
-					OverpaintEnabled="true"
+					IconScale="0.6"
 					Clicked="HamburgerButtonClicked" />
 
 			<!-- AED検索ボタン、水平中央にするためC#側で小細工してる -->
@@ -133,10 +155,7 @@
 					"{ConstraintExpression Type=Constant, Constant=20}"
 					HeightRequest="44"
 					Padding="22,0"
-					BackColor="White"
-					BorderColor="Accent"
-					BorderWidth="1"
-					TextColor="Accent"
+					FontSize="Medium"
 					IsEnabled="{Binding IsUpdating.Value, Converter={StaticResource invertConverter}}"
 					Command="{Binding SearchNearAedsCommand}"
 					CommandParameter="{x:Reference map}"
@@ -149,12 +168,9 @@
 					  Property=Width, Factor=1, Constant=-54}"
 					RelativeLayout.YConstraint =
 					"{ConstraintExpression Type=RelativeToParent,
-					  Property=Height, Factor=1, Constant=-104}"
+					  Property=Height, Factor=1, Constant=-109}"
 					Graphic="{StaticResource CurrentLocationIcon}"
-					IconScale="0.8"
-					FillColor="Accent"
-					BackColor="White"
-					OverpaintEnabled="true"
+					IconScale="0.7"
 					Clicked="MoveToCurrentPositionButtonClicked" />
 
 			<!-- 下から出てくるやつ -->
@@ -183,37 +199,36 @@
 				</Grid.RowDefinitions>
 
 				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="10" />
 					<ColumnDefinition Width="44" />
 					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="10" />
 				</Grid.ColumnDefinitions>
 
 				<BoxView Grid.Row="0"
 						 Grid.RowSpan="2"
 						 Grid.Column="0"
-						 Grid.ColumnSpan="2"
+						 Grid.ColumnSpan="4"
 						 VerticalOptions="FillAndExpand"
-						 Color="White"/>
+						 Color="{StaticResource BackColorHex}"/>
 
 				<views:GraphicIconButton 
 						Grid.Row="1"
-						Grid.Column="0"
+						Grid.Column="1"
 						Graphic="{StaticResource ListIcon}"
-						IconScale="0.8"
-						FillColor="Accent"
+						IconScale="0.7"
 						BackColor="Transparent"
-						OverpaintEnabled="true"
 						Clicked="FlyOutButtonClicked" />
 				<Label Grid.Row="1"
 					   Grid.Column="0"
-					   Grid.ColumnSpan="2"
+					   Grid.ColumnSpan="4"
 					   Text="付近のAED"
-					   TextColor="Black"
 					   VerticalOptions="CenterAndExpand"
 					   HorizontalOptions="CenterAndExpand"
 					   />
 				<ListView Grid.Row="2"
 						  Grid.Column="0"
-						  Grid.ColumnSpan="2"
+						  Grid.ColumnSpan="4"
 						  HasUnevenRows="true"
 						  ItemsSource="{Binding Aeds}"
 						  SelectedItem="{Binding Path=SelectedAed, Mode=TwoWay}"
@@ -226,6 +241,7 @@
 									<StackLayout Padding="15,5,15,5"
 												 Spacing="0" >
 										<Label Text="{Binding LocationName}"
+											   TextColor="Black"
 											   LineBreakMode="WordWrap" />
 										<Label Text="{Binding Detail}"
 											   TextColor="Gray"

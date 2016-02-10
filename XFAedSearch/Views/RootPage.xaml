@@ -13,7 +13,7 @@
 			</ContentPage.Padding>
 			<ContentPage.Content>
 				<StackLayout>
-					<Label Text="Menu" TextColor="White" />
+					<Label Text="AEDオープンデータ検索" TextColor="White" />
 					<ListView x:Name="listView"
 							  BackgroundColor="Transparent" >
 						<ListView.ItemTemplate>
