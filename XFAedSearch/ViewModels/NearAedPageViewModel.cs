@@ -11,7 +11,6 @@ using System.Reactive.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using XFAedSearch.ViewModels;
-using Plugin.Geolocator;
 using System.Threading.Tasks;
 
 using XFAedSearch.Models;

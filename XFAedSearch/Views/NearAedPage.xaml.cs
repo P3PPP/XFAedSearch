@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 using XFAedSearch.Models;
 using XFAedSearch.ViewModels;
-using Plugin.Geolocator;
 using XFMapExtensions;
 
 namespace XFAedSearch.Views
