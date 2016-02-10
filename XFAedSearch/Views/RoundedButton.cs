@@ -245,9 +245,10 @@ namespace XFAedSearch.Views
 		public static readonly BindableProperty TextColorProperty =
 			BindableProperty.Create("TextColor", typeof(Xamarin.Forms.Color),
 				typeof(RoundedButton),
-				Xamarin.Forms.Color.White,
+				Xamarin.Forms.Color.Black,
 				propertyChanged:(bindable, oldValue, newValue) => ((RoundedButton)bindable).OnTextColorChanged());
 
+		[TypeConverter(typeof(ColorTypeConverter))]
 		public Xamarin.Forms.Color TextColor
 		{
 			get { return (Xamarin.Forms.Color)GetValue(TextColorProperty); }
@@ -260,6 +261,7 @@ namespace XFAedSearch.Views
 				Device.GetNamedSize(NamedSize.Small, typeof(Label)),
 				propertyChanged:(bindable, oldValue, newValue) => ((RoundedButton)bindable).OnFontSizeChanged());
 
+		[TypeConverter(typeof(FontSizeConverter))]
 		public double FontSize
 		{
 			get { return (double)GetValue(FontSizeProperty); }
