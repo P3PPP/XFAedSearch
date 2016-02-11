@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
 				  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+				  xmlns:local="clr-namespace:XFAedSearch;assembly=XFAedSearch"
 				  x:Class="XFAedSearch.Views.RootPage">
 	<MasterDetailPage.Master>
-		<ContentPage Title="Menu"
-					 BackgroundColor="Gray">
+		<ContentPage Title="メニュー"
+					 BackgroundColor="#656765">
 			<ContentPage.Padding>
 				<OnPlatform x:TypeArguments="Thickness"
 							iOS="20, 30, 0, 20"
@@ -15,6 +16,7 @@
 				<StackLayout>
 					<Label Text="AEDオープンデータ検索" TextColor="White" />
 					<ListView x:Name="listView"
+							  SeparatorVisibility="None"
 							  BackgroundColor="Transparent" >
 						<ListView.ItemTemplate>
 							<DataTemplate>
@@ -22,6 +24,18 @@
 							</DataTemplate>
 						</ListView.ItemTemplate>
 					</ListView>
+					<Frame HorizontalOptions="End"
+						   Padding="0,0,20,0">
+						<Label TextColor="White"
+							   FontSize="Small">
+							<Label.FormattedText>
+								<FormattedString>
+									<Span Text="ver. " />
+									<Span Text="{x:Static local:App.Version}" />
+								</FormattedString>
+							</Label.FormattedText>
+						</Label>
+					</Frame>
 				</StackLayout>
 			</ContentPage.Content>
 		</ContentPage>
