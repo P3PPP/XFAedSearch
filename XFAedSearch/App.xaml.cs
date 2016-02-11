@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace XFAedSearch
 {
+	[Xamarin.Forms.Xaml.XamlCompilation (Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
 	public partial class App : Application
 	{
 		private static Version assemblyVersion = typeof(App).Assembly.GetName().Version;
