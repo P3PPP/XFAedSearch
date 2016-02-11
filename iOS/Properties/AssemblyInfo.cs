@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
-using Android.App;
 
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("XFAedSearch.Droid")]
+[assembly: AssemblyTitle("XFAedSearch.iOS")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("Copyright (c) 2016 P3PPP")]
+[assembly: AssemblyCopyright("Copyright (c) 2015 P3PPP")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
