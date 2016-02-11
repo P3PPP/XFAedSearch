@@ -60,6 +60,11 @@
 				<Setter Property="BackColor" Value="{StaticResource BackColorHex}" />
 				<Setter Property="BorderWidth" Value="0" />
 			</Style>
+			<Style TargetType="Frame">
+				<Setter Property="BackgroundColor" Value="Transparent" />
+				<Setter Property="OutlineColor" Value="Transparent" />
+				<Setter Property="HasShadow" Value="false" />
+			</Style>
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>

@@ -32,16 +32,12 @@ namespace XFAedSearch.Views
 					Title = "地図で探す",
 					PageType = typeof(NearAedPage),
 					ViewModel = nearAedPageViewModel,
+					RequiresNavigationBar = false,
 				},
 				new MenuItem {
-					Title = "プライバシーポリシー1",
-					PageType = typeof(PrivacyPolicyPage),
-					ViewModel = new { Name = "Policy1" },
-				},
-				new MenuItem {
-					Title = "プライバシーポリシー2",
-					PageType = typeof(PrivacyPolicyPage),
-					ViewModel = new { Name = "Policy2" },
+					Title = "アプリについて",
+					PageType = typeof(AboutPage),
+					RequiresNavigationBar = true,
 				},
 			};
 
@@ -53,19 +49,6 @@ namespace XFAedSearch.Views
 				BindingContext = nearAedPageViewModel
 			};
 			Detail = nearAedPage;
-
-
-			nearAedPageViewModel.UpdateNearAeds()
-				.ContinueWith(x =>
-				{
-					if(x.Status != TaskStatus.Faulted)
-					{
-						var aed = nearAedPageViewModel.AedsViewModel.Value.Aeds.First();
-						nearAedPage.MoveToReagion(MapSpan.FromCenterAndRadius(
-							new Position(aed.AedInfo.Latitude, aed.AedInfo.Longitude),
-							Distance.FromMeters(Settings.RegionRadius)));
-					}
-				});
 		}
 
 		private void NavigateTo(MenuItem item)
@@ -75,25 +58,11 @@ namespace XFAedSearch.Views
 				SelectedMenuItem = item;
 				Page page = (Page)Activator.CreateInstance(item.PageType);
 				page.BindingContext = item.ViewModel;
-				Detail = page;
+				Detail = item.RequiresNavigationBar
+					? new NavigationPage(page) { Title = item.Title, }
+					: page;
 			}
 			IsPresented = false;
-		}
-	}
-
-
-	public class PrivacyPolicyPage : ContentPage
-	{
-		public PrivacyPolicyPage()
-		{
-			var label = new Label {
-				VerticalOptions = LayoutOptions.CenterAndExpand,
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
-				Text = "ここに位置情報のプライバシーポリシーとかを書く"
-			};
-			label.SetBinding(Label.TextProperty, "Name");
-
-			Content = label;
 		}
 	}
 }

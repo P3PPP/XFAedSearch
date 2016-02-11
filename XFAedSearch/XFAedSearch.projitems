@@ -27,6 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\RoundedButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\InvertConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\MapExtensionBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml.cs">
+      <DependentUpon>AboutPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
@@ -48,5 +51,8 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\ArrowLeft.svg" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\ArrowRight.svg" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Misc\CurrentLocation.svg" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\AboutPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

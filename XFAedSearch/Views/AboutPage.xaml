@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:local="clr-namespace:XFAedSearch;assembly=XFAedSearch"
+			 x:Class="XFAedSearch.Views.AboutPage">
+	<ContentPage.Resources>
+		<ResourceDictionary>
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+	<ContentPage.Content>
+		<ScrollView>
+			<StackLayout Padding="15">
+				<Label>AEDオープンデータ検索</Label>
+				<Label FontSize="Small">
+					<Label.FormattedText>
+						<FormattedString>
+							<Span Text="ver. " />
+							<Span Text="{x:Static local:App.Version}" />
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+				<Label FontSize="Small">Copyright (c) 2015 P3PPP</Label>
+				<BoxView Color="Transparent" HeightRequest="10" />
+				<Label FontSize="Small">
+					<Label.FormattedText>
+						<FormattedString>
+							<Span Text="「AEDオープンデータ検索」は近くにあるAEDの位置を表示するアプリです。自宅や勤務先周辺に設置されたAEDを確認してみましょう。" />
+							<Span Text="{x:Static x:Environment.NewLine}" />
+							<Span Text="このアプリが参照するAEDの位置情報は AEDオープンデータプラットフォーム(" />
+							<Span Text="http://hatsunejournal.jp/w8/AEDOpendata/" />
+							<Span Text=") に登録されたデータ(各自治体が提供している物)に基づきます。" />
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+			</StackLayout>
+		</ScrollView>
+	</ContentPage.Content>
+</ContentPage>

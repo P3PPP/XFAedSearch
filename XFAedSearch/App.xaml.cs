@@ -1,11 +1,18 @@
 ﻿using System;
 using Xamarin.Forms;
 using XFAedSearch.Views;
+using System.Reflection;
 
 namespace XFAedSearch
 {
 	public partial class App : Application
 	{
+		private static Version assemblyVersion = typeof(App).Assembly.GetName().Version;
+		public static string Version
+		{
+			get { return assemblyVersion.ToString();}
+		}
+
 		public App()
 		{
 			InitializeComponent();

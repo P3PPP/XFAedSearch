@@ -23,6 +23,11 @@ namespace XFAedSearch.Views
 			get;
 			set;
 		}
+
+		public bool RequiresNavigationBar {
+			get;
+			set;
+		}
 	}
 }
 
