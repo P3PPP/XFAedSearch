@@ -101,6 +101,21 @@ namespace XFAedSearch.Views
 			map.MoveToRegion(MapSpan.FromCenterAndRadius(
 				new Position(Settings.RegionLatitude, Settings.RegionLongitude),
 				Distance.FromMeters(Settings.RegionRadius)));
+
+			// 最初だけ周囲のAEDを検索するよ
+			var vm = (BindingContext as NearAedPageViewModel);
+			if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
+				vm.AedsViewModel.Value.Aeds.Count == 0)
+			{
+				if(vm.SearchNearAedsCommand.CanExecute())
+				{
+					Task.Factory.StartNew(async () => {
+						await Task.Delay(TimeSpan.FromMilliseconds(1000));
+						Device.BeginInvokeOnMainThread(() =>
+							vm.SearchNearAedsCommand.Execute(map));
+					});
+				}
+			}
 		}
 
 		protected override void OnBindingContextChanged()
