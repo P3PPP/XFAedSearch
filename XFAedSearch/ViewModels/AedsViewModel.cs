@@ -11,16 +11,6 @@ namespace XFAedSearch.ViewModels
 {
 	public class AedsViewModel : INotifyPropertyChanged
 	{
-//		private string selectedAedName = "";
-//		public string SelectedAedName {
-//			get { return selectedAedName; }
-//			set
-//			{
-//				selectedAedName = value;
-//				RaisePropertyChanged(nameof(SelectedAedName));
-//			}
-//		}
-
 		private AedViewModel selectedAed;
 		public AedViewModel SelectedAed {
 			get { return selectedAed; }

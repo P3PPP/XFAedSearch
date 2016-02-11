@@ -85,48 +85,6 @@ namespace XFAedSearch.Views
 				),
 				new ClosePath()
 			}, pen, brush);
-
-
-//			//			var newRect = rect.GetInflated(-(BorderWidth ));
-//			var newRect = rect;
-//			var height = newRect.Height;
-//			var width = newRect.Width;
-//			var x = newRect.X;
-//			var y = newRect.Y;
-//			var curveSize = height / 2;
-//			canvas.DrawPath(new PathOp []{ 
-//				new MoveTo(x+curveSize, y),
-//				// Top Right corner
-//				new LineTo(x+width-curveSize, y),
-//				new CurveTo(
-//					new NGraphics.Point(x+width-curveSize, y),
-//					new NGraphics.Point(x+width, y),
-//					new NGraphics.Point(x+width, y+curveSize)
-//				),
-//				//				new LineTo(x+width, y+height-curveSize),
-//				// Bottom right corner
-//				new CurveTo(
-//					new NGraphics.Point(x+width, y+height-curveSize),
-//					new NGraphics.Point(x+width, y+height),
-//					new NGraphics.Point(x+width-curveSize, y+height)
-//				),
-//				new LineTo(x+curveSize, y+height),
-//				// Bottom left corner
-//				new CurveTo(
-//					new NGraphics.Point(x+curveSize, y+height),
-//					new NGraphics.Point(x, y+height),
-//					new NGraphics.Point(x, y+height-curveSize)
-//				),
-//				//				new LineTo(x, y+curveSize),
-//				new CurveTo(
-//					new NGraphics.Point(x, y+curveSize),
-//					new NGraphics.Point(x, y),
-//					new NGraphics.Point(x+curveSize, y)
-//				),
-//				new ClosePath()
-//			}, null, brush);
-
-		
 		}
 
 		private void OnTextChanged()
@@ -268,41 +226,6 @@ namespace XFAedSearch.Views
 			set { SetValue(FontSizeProperty, value); } 
 		}
 
-//		public static readonly BindableProperty IconScaleProperty =
-//			BindableProperty.Create("IconScale", typeof(double),
-//				typeof(RoundedButton),
-//				1.0,
-//				propertyChanged:(bindable, oldValue, newValue) => ((RoundedButton)bindable).icon.Invalidate());
-//
-//		public double IconScale
-//		{
-//			get { return (double)GetValue(IconScaleProperty); }
-//			set { SetValue(IconScaleProperty, value); } 
-//		}
-//
-//		public static readonly BindableProperty OverpaintEnabledProperty =
-//			BindableProperty.Create("OverpaintEnabled", typeof(bool),
-//				typeof(RoundedButton),
-//				false,
-//				propertyChanged:(bindable, oldValue, newValue) => ((RoundedButton)bindable).icon.Invalidate());
-//
-//		public bool OverpaintEnabled
-//		{
-//			get { return (bool)GetValue(OverpaintEnabledProperty); }
-//			set { SetValue(OverpaintEnabledProperty, value); } 
-//		}
-//
-//		public static readonly BindableProperty GraphicProperty =
-//			BindableProperty.Create("Graphic", typeof(Graphic),
-//				typeof(RoundedButton),
-//				null,
-//				propertyChanged:(bindable, oldValue, newValue) => ((RoundedButton)bindable).icon.Invalidate());
-//
-//		public Graphic Graphic
-//		{
-//			get { return (Graphic)GetValue(GraphicProperty); }
-//			set { SetValue(GraphicProperty, value); } 
-//		}
 		#endregion
 	}
 }
