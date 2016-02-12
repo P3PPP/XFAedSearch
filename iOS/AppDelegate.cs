@@ -18,12 +18,12 @@ namespace XFAedSearch.iOS
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 			TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 
-			DisplayCrashReport();
-
+			App.applicationVersion = NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleVersion").ToString();
 			global::Xamarin.Forms.Forms.Init();
 			global::Xamarin.FormsMaps.Init();
 			NControl.iOS.NControlViewRenderer.Init();
 
+			DisplayCrashReport();
 			LoadApplication(new App());
 
 			return base.FinishedLaunching(app, options);

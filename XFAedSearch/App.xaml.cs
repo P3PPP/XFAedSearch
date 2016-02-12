@@ -1,17 +1,20 @@
 ﻿using System;
 using Xamarin.Forms;
 using XFAedSearch.Views;
-using System.Reflection;
+
+// 共通コードをPCLにして他プラットーフォームにinternalメンバを公開したい時に使う
+//[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("XFAedSearch.Droid")]
+//[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("XFAedSearch.iOS")]
 
 namespace XFAedSearch
 {
 	[Xamarin.Forms.Xaml.XamlCompilation (Xamarin.Forms.Xaml.XamlCompilationOptions.Compile)]
 	public partial class App : Application
 	{
-		private static Version assemblyVersion = typeof(App).Assembly.GetName().Version;
+		internal static string applicationVersion = "";
 		public static string Version
 		{
-			get { return assemblyVersion.ToString();}
+			get { return applicationVersion;}
 		}
 
 		public App()

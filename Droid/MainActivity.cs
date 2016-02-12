@@ -23,11 +23,12 @@ namespace XFAedSearch.Droid
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 			TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;  
 
+			App.applicationVersion = PackageManager.GetPackageInfo(PackageName, 0).VersionName;;
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 			global::Xamarin.FormsMaps.Init(this, bundle);
 			NControl.Droid.NControlViewRenderer.Init();
-			DisplayCrashReport();
 
+			DisplayCrashReport();
 			LoadApplication(new App());
 		}
 
