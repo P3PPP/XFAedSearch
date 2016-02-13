@@ -2,11 +2,13 @@
 
 Xamarin.Forms製 AED検索アプリ
 
+現在地付近のAEDを表示する。
+
 元データはAEDオープンデータプラットフォーム(http://hatsunejournal.jp/w8/AEDOpendata/)
 
 動かすとこんな感じ
 
-<blockquote class="twitter-tweet" lang="ja"><p lang="ja" dir="ltr">Xamarin.Forms でこんな感じのアプリを開発中。 <a href="http://t.co/qhcZE0sma4">pic.twitter.com/qhcZE0sma4</a></p>&mdash; たまにXamarin.Forms解説マン (@ticktackmobile) <a href="https://twitter.com/ticktackmobile/status/649154247699771392">2015, 9月 30</a></blockquote>
+<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">開発再開したAED検索アプリ、こんな感じになった <a href="https://t.co/K7ySjNL2tl">pic.twitter.com/K7ySjNL2tl</a></p>&mdash; たまにXamarin.Forms解説マン (@ticktackmobile) <a href="https://twitter.com/ticktackmobile/status/697370884554760193">2016, 2月 10</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-
+2016/2/13: iOS版審査提出
