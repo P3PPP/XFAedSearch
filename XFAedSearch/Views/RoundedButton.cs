@@ -56,7 +56,8 @@ namespace XFAedSearch.Views
 				                BackColor.A);
 			var brush = new SolidBrush(fillColor);
 
-			var newRect = rect.GetInflated(-(BorderWidth)-1);
+			var padding = BorderWidth <= 0 ? 0.0 : BorderWidth;
+			var newRect = rect.GetInflated(-padding);
 			var curveSize = newRect.Height / 2;
 
 			canvas.DrawPath(new PathOp []{ 
