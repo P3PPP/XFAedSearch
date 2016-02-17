@@ -32,6 +32,20 @@ namespace XFAedSearch.Droid
 			NControl.Droid.NControlViewRenderer.Init();
 
 			DisplayCrashReport();
+
+			MessagingCenter.Subscribe<XFAedSearch.Views.RootPage, bool>(this,
+				"ActionBarIsVisible", (sender, isVisible) =>
+			{
+				if(isVisible)
+				{
+					ActionBar.Show();
+				}
+				else
+				{
+					ActionBar.Hide();
+				}
+			});
+
 			LoadApplication(new App());
 		}
 

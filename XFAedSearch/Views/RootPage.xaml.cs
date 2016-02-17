@@ -44,11 +44,7 @@ namespace XFAedSearch.Views
 			listView.ItemTapped += (sender, e) => NavigateTo(e.Item as MenuItem);
 			listView.ItemsSource = MenuItems;
 
-			SelectedMenuItem = MenuItems.First(x => x.ViewModel == nearAedPageViewModel);
-			var nearAedPage = new NearAedPage {
-				BindingContext = nearAedPageViewModel
-			};
-			Detail = nearAedPage;
+			NavigateTo(MenuItems.First(x => x.ViewModel == nearAedPageViewModel));
 		}
 
 		private void NavigateTo(MenuItem item)
@@ -56,13 +52,37 @@ namespace XFAedSearch.Views
 			if(SelectedMenuItem != item)
 			{
 				SelectedMenuItem = item;
-				Page page = (Page)Activator.CreateInstance(item.PageType);
-				page.BindingContext = item.ViewModel;
-				Detail = item.RequiresNavigationBar
-					? new NavigationPage(page) { Title = item.Title, }
-					: page;
+				Detail = CreatePage(item);
+				SetActionBarIsVisible(item.RequiresNavigationBar);
 			}
 			IsPresented = false;
+		}
+
+		private Page CreatePage(MenuItem item)
+		{
+			if(item == null)
+				throw new ArgumentNullException("item");
+
+			var inner = (Page)Activator.CreateInstance(item.PageType);
+			inner.BindingContext = item.ViewModel;
+			inner.Title = item.Title;
+			NavigationPage.SetHasNavigationBar(inner, item.RequiresNavigationBar);
+			var page = new NavigationPage(inner)
+			{
+				Title = item.Title,
+			};
+			return page;
+		}
+
+		protected override void OnAppearing()
+		{
+			SetActionBarIsVisible(SelectedMenuItem.RequiresNavigationBar);
+			base.OnAppearing();
+		}
+
+		private void SetActionBarIsVisible(bool isVisible)
+		{
+			MessagingCenter.Send<RootPage, bool>(this, "ActionBarIsVisible", isVisible);
 		}
 	}
 }
