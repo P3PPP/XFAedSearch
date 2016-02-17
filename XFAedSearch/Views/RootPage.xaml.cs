@@ -53,7 +53,7 @@ namespace XFAedSearch.Views
 			{
 				SelectedMenuItem = item;
 				Detail = CreatePage(item);
-				SetActionBarIsVisible(item.RequiresNavigationBar);
+				SendActionBarIsVisible(item.RequiresNavigationBar);
 			}
 			IsPresented = false;
 		}
@@ -76,11 +76,11 @@ namespace XFAedSearch.Views
 
 		protected override void OnAppearing()
 		{
-			SetActionBarIsVisible(SelectedMenuItem.RequiresNavigationBar);
+			SendActionBarIsVisible(SelectedMenuItem.RequiresNavigationBar);
 			base.OnAppearing();
 		}
 
-		private void SetActionBarIsVisible(bool isVisible)
+		private void SendActionBarIsVisible(bool isVisible)
 		{
 			MessagingCenter.Send<RootPage, bool>(this, "ActionBarIsVisible", isVisible);
 		}
