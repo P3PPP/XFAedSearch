@@ -11,9 +11,12 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 
+using Xamarin.Forms;
+
 namespace XFAedSearch.Droid
 {
-	[Activity(Label = "XFAedSearch.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity(Label = "@string/AppName", Icon = "@drawable/icon", MainLauncher = true,
+		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		protected override void OnCreate(Bundle bundle)

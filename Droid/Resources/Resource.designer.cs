@@ -26,9 +26,10 @@ namespace XFAedSearch.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::NGraphics.Android.Resource.String.library_name = global::XFAedSearch.Droid.Resource.String.library_name;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::XFAedSearch.Droid.Resource.Attribute.actionBarSize;
 			global::Reactive.Bindings.Resource.String.ApplicationName = global::XFAedSearch.Droid.Resource.String.ApplicationName;
 			global::Reactive.Bindings.Resource.String.Hello = global::XFAedSearch.Droid.Resource.String.Hello;
-			global::NGraphics.Android.Resource.String.library_name = global::XFAedSearch.Droid.Resource.String.library_name;
 			global::NControl.Droid.Resource.Animation.abc_fade_in = global::XFAedSearch.Droid.Resource.Animation.abc_fade_in;
 			global::NControl.Droid.Resource.Animation.abc_fade_out = global::XFAedSearch.Droid.Resource.Animation.abc_fade_out;
 			global::NControl.Droid.Resource.Animation.abc_grow_fade_in_from_bottom = global::XFAedSearch.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
@@ -1568,7 +1569,6 @@ namespace XFAedSearch.Droid
 			global::NControl.Droid.Resource.Styleable.ViewStubCompat_android_id = global::XFAedSearch.Droid.Resource.Styleable.ViewStubCompat_android_id;
 			global::NControl.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId = global::XFAedSearch.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
 			global::NControl.Droid.Resource.Styleable.ViewStubCompat_android_layout = global::XFAedSearch.Droid.Resource.Styleable.ViewStubCompat_android_layout;
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::XFAedSearch.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation
@@ -4187,6 +4187,9 @@ namespace XFAedSearch.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f050043
+			public const int AppName = 2131034179;
+			
 			// aapt resource value: 0x7f050042
 			public const int ApplicationName = 2131034178;
 			
@@ -4838,6 +4841,9 @@ namespace XFAedSearch.Droid
 			
 			// aapt resource value: 0x7f090006
 			public const int CardView_Light = 2131296262;
+			
+			// aapt resource value: 0x7f090144
+			public const int NoActionBar = 2131296580;
 			
 			// aapt resource value: 0x7f090025
 			public const int Platform_AppCompat = 2131296293;
