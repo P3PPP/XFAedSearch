@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 using Xamarin.Forms.Maps;
 using System.Linq;
 using XFMapExtensions;
@@ -45,20 +46,77 @@ namespace XFMapExtensions.Platform.Droid
 			var callback = new OnMapReadyCallback();
 			callback.MapReady += (sender, e) => {
 				googleMap = callback.GoogleMap;
-				googleMap.MyLocationChange += (sender2, e2) => {
-					behavior.UserLocation = new Position(
-						e2.Location.Latitude,
-						e2.Location.Longitude);
-				};
+
+				googleMap.MyLocationChange += GoogleMap_MyLocationChange;
+				// なぜかCameraChangeにハンドラを追加するとXF.Maps.Map.VisibleRegionが更新されなくなる
+//				googleMap.CameraChange += GoogleMap_CameraChange;
+
+				var point = new LatLng(
+					XFAedSearch.Droid.Helpers.Settings.Latitude,
+					XFAedSearch.Droid.Helpers.Settings.Longitude);
+				googleMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(point,
+					XFAedSearch.Droid.Helpers.Settings.ZoomLevel));
+
+				googleMap.SetOnMapLoadedCallback(new MapLoadedCallback {
+					OnMapLoadedAction = () => MapLoaded?.Invoke(this, new EventArgs())
+				});
 			};
 			mapView.GetMapAsync(callback);
+
 		}
 
 		protected override void OnDetached()
 		{
+			if(googleMap != null)
+			{
+				googleMap.MyLocationChange -= GoogleMap_MyLocationChange;
+				googleMap.CameraChange -= GoogleMap_CameraChange;
+
+				var position = googleMap.CameraPosition;
+				XFAedSearch.Droid.Helpers.Settings.Latitude = position.Target.Latitude;
+				XFAedSearch.Droid.Helpers.Settings.Longitude = position.Target.Longitude;
+				XFAedSearch.Droid.Helpers.Settings.ZoomLevel = position.Zoom;
+			}
 		}
 
+		void GoogleMap_MyLocationChange (object sender, GoogleMap.MyLocationChangeEventArgs e)
+		{
+			behavior.UserLocation = new Position(
+				e.Location.Latitude,
+				e.Location.Longitude);
+
+			// なぜかCameraChangeにハンドラを追加するとXF.Maps.Map.VisibleRegionが更新されなくなるので、暫定的にここで対処
+			var position = googleMap.CameraPosition;
+			XFAedSearch.Droid.Helpers.Settings.Latitude = position.Target.Latitude;
+			XFAedSearch.Droid.Helpers.Settings.Longitude = position.Target.Longitude;
+			XFAedSearch.Droid.Helpers.Settings.ZoomLevel = position.Zoom;
+		}
+
+		void GoogleMap_CameraChange (object sender, GoogleMap.CameraChangeEventArgs e)
+		{
+			XFAedSearch.Droid.Helpers.Settings.Latitude = e.Position.Target.Latitude;
+			XFAedSearch.Droid.Helpers.Settings.Longitude = e.Position.Target.Longitude;
+			XFAedSearch.Droid.Helpers.Settings.ZoomLevel = e.Position.Zoom;
+		}
+
+
+
 		#endregion
+
+		class MapLoadedCallback : Java.Lang.Object, GoogleMap.IOnMapLoadedCallback
+		{
+			public Action OnMapLoadedAction
+			{
+				get;
+				set;
+			}
+
+			public void OnMapLoaded()
+			{
+				OnMapLoadedAction?.Invoke();
+			}
+		}
+
 
 		class OnMapReadyCallback : Java.Lang.Object, IOnMapReadyCallback
 		{
@@ -86,6 +144,8 @@ namespace XFMapExtensions.Platform.Droid
 		}
 
 		#endregion
+
+		public event EventHandler MapLoaded;
 	}
 }
 

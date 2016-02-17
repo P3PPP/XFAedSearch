@@ -20,12 +20,64 @@ namespace XFAedSearch.Views
 		readonly string UpdateNearAedsKey = "/Map/Pins/Update/NearAeds";
 		readonly string NearAedsFailedKey = "/SearchNearAeds/?Result=Failed";
 
+		#if DEBUG
+		private Label radiusLabel;
+		#endif
+
 		public NearAedPage ()
 		{
 			InitializeComponent ();
 
 			// 中央揃えに見せるトリック
 			searchButton.SizeChanged += (sender, e) => searchButton.TranslationX = -(searchButton.Width / 2);
+
+			#if DEBUG
+			radiusLabel = new Label{
+				TextColor = Color.Black,
+				BackgroundColor = Color.Silver.MultiplyAlpha(0.2),
+			};
+			relativeLayout.Children.Add(radiusLabel,
+				() => relativeLayout.Width / 2,
+				() => relativeLayout.Height / 2);
+			radiusLabel.SizeChanged += (sender, e) =>
+			{
+				radiusLabel.TranslationY = -(radiusLabel.Height / 2);
+				radiusLabel.TranslationX = -(radiusLabel.Width / 2);
+			};
+			radiusLabel.Text = Settings.RegionRadius.ToString();
+			#endif
+
+			if(Device.OS == TargetPlatform.Android)
+			{
+				// AndroidはMapのロード完了前にRegion移動すると可視範囲(ズーム)が指定どおりにならない問題への対処
+				mapExBehavior.MapLoaded += (sender, e) =>
+				{
+					// 前回マップに表示していた位置を復元はEffectでやる
+
+					// 最初だけ周囲のAEDを検索するよ
+					var vm = (BindingContext as NearAedPageViewModel);
+					if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
+					   vm.AedsViewModel.Value.Aeds.Count == 0)
+					{
+						if(vm.SearchNearAedsCommand.CanExecute())
+						{
+							Task.Factory.StartNew(async () =>
+							{
+								await Task.Delay(TimeSpan.FromMilliseconds(1000));
+								Device.BeginInvokeOnMainThread(() =>
+									vm.SearchNearAedsCommand.Execute(map));
+							});
+						}
+					}
+				};
+			}
+			else
+			{
+				// 前回マップに表示していた位置を復元
+				map.MoveToRegion(MapSpan.FromCenterAndRadius(
+					new Position(Settings.RegionLatitude, Settings.RegionLongitude),
+					Distance.FromMeters(Settings.RegionRadius)));
+			}
 
 			MessagingCenter.Subscribe<AedsViewModel, Position>(
 				this,
@@ -71,6 +123,11 @@ namespace XFAedSearch.Views
 
 		private async void FlyOutButtonClicked(object sender, EventArgs e)
 		{
+			#if DEBUG
+			radiusLabel.Text = Settings.RegionRadius.ToString() + Environment.NewLine +
+				map.VisibleRegion.Radius.Meters;
+			#endif
+
 			if(flyOut.IsVisible)
 			{
 				await flyOut.TranslateTo(0, flyOut.Height, 300);
@@ -86,34 +143,42 @@ namespace XFAedSearch.Views
 
 		private void HamburgerButtonClicked(object sender, EventArgs e)
 		{
-			var masterDetail = this.Parent as MasterDetailPage;
-			if(masterDetail == null)
-				return;
+			Element ancestor = this.Parent;
+			while(true)
+			{
+				if(ancestor is MasterDetailPage || ancestor == null)
+				{
+					break;
+				}
+				ancestor = ancestor.Parent;
+			}
 
-			masterDetail.IsPresented = !masterDetail.IsPresented;
+			if(ancestor != null)
+			{
+				(ancestor as MasterDetailPage).IsPresented = !(ancestor as MasterDetailPage).IsPresented;
+			}
 		}
 
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
 
-			// 前回マップに表示していた位置を復元
-			map.MoveToRegion(MapSpan.FromCenterAndRadius(
-				new Position(Settings.RegionLatitude, Settings.RegionLongitude),
-				Distance.FromMeters(Settings.RegionRadius)));
-
-			// 最初だけ周囲のAEDを検索するよ
-			var vm = (BindingContext as NearAedPageViewModel);
-			if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
-				vm.AedsViewModel.Value.Aeds.Count == 0)
+			if(Device.OS != TargetPlatform.Android)
 			{
-				if(vm.SearchNearAedsCommand.CanExecute())
+				// 最初だけ周囲のAEDを検索するよ
+				var vm = (BindingContext as NearAedPageViewModel);
+				if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
+				  vm.AedsViewModel.Value.Aeds.Count == 0)
 				{
-					Task.Factory.StartNew(async () => {
-						await Task.Delay(TimeSpan.FromMilliseconds(1000));
-						Device.BeginInvokeOnMainThread(() =>
+					if(vm.SearchNearAedsCommand.CanExecute())
+					{
+						Task.Factory.StartNew(async () =>
+						{
+							await Task.Delay(TimeSpan.FromMilliseconds(1000));
+							Device.BeginInvokeOnMainThread(() =>
 							vm.SearchNearAedsCommand.Execute(map));
-					});
+						});
+					}
 				}
 			}
 		}

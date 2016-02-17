@@ -1,44 +1,51 @@
-/*
-// Helpers/Settings.cs This file was automatically added when you installed the Settings Plugin. If you are not using a PCL then comment this file back in to use it.
+using System;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 
 namespace XFAedSearch.Droid.Helpers
 {
-  /// <summary>
-  /// This is the Settings static class that can be used in your Core solution or in any
-  /// of your client applications. All settings are laid out the same exact way with getters
-  /// and setters. 
-  /// </summary>
-  public static class Settings
-  {
-    private static ISettings AppSettings
-    {
-      get
-      {
-        return CrossSettings.Current;
-      }
-    }
+	public static class Settings
+	{
+		private static ISettings AppSettings
+		{
+			get
+			{
+				return CrossSettings.Current;
+			}
+		}
 
-    #region Setting Constants
+		#region Setting Constants
 
-    private const string SettingsKey = "settings_key";
-    private static readonly string SettingsDefault = string.Empty;
+		const string LatitudeKey = "Latitude";
+		// 東京都庁の緯度、経度
+		private static readonly double LatitudeDefault = 35.689521;
 
-    #endregion
+		const string LongitudeKey = "Longitude";
+		// 東京都庁の緯度、経度
+		private static readonly double LongitudeDefault = 139.691704;
+
+		const string ZoomLevelKey = "ZoomLevel";
+		private static readonly float ZoomLevelDefault = 16.5f;
+
+		#endregion
 
 
-    public static string GeneralSettings
-    {
-      get
-      {
-        return AppSettings.GetValueOrDefault<string>(SettingsKey, SettingsDefault);
-      }
-      set
-      {
-        AppSettings.AddOrUpdateValue<string>(SettingsKey, value);
-      }
-    }
+		public static double Latitude
+		{
+			get { return AppSettings.GetValueOrDefault<double>(LatitudeKey, LatitudeDefault); }
+			set { AppSettings.AddOrUpdateValue<double>(LatitudeKey, value); }
+		}
 
-  }
-}*/
+		public static double Longitude
+		{
+			get { return AppSettings.GetValueOrDefault<double>(LongitudeKey, LongitudeDefault); }
+			set { AppSettings.AddOrUpdateValue<double>(LongitudeKey, value); }
+		}
+
+		public static float ZoomLevel
+		{
+			get { return AppSettings.GetValueOrDefault<float>(ZoomLevelKey, ZoomLevelDefault); }
+			set { AppSettings.AddOrUpdateValue<float>(ZoomLevelKey, value); }
+		}
+	}
+}

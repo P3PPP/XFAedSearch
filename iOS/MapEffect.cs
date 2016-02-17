@@ -104,6 +104,7 @@ namespace XFMapExtensions.Platform.iOS
 			mapView.AddOverlay(polygon);
 		}
 
+		public event EventHandler MapLoaded;
 	}
 
 }

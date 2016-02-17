@@ -16,10 +16,6 @@ namespace XFMapExtensions
 		private IPlatformMapEffect toNotify;
 		private Map associated;
 
-		public MapExtensionBehavior()
-		{
-		}
-
 		protected override void OnAttachedTo(Map bindable)
 		{
 			base.OnAttachedTo(bindable);
@@ -30,6 +26,7 @@ namespace XFMapExtensions
 
 			mapEffect = new MapEffect();
 			toNotify = InnerField.GetValue(mapEffect) as IPlatformMapEffect;
+			toNotify.MapLoaded += (sender, e) => this.MapLoaded?.Invoke(this, new EventArgs());
 
 			bindable.Effects.Add (mapEffect);
 
@@ -52,6 +49,7 @@ namespace XFMapExtensions
 			BindingContext = associated.BindingContext;
 		}
 
+		public event EventHandler MapLoaded;
 
 		#region BindableProperties
 
@@ -77,6 +75,7 @@ namespace XFMapExtensions
 		public interface IPlatformMapEffect
 		{
 			void OnPropertyChanged(PropertyChangedEventArgs e);
+			event EventHandler MapLoaded;
 		}
 
 		private class MapEffect : RoutingEffect
