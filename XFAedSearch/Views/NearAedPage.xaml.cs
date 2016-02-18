@@ -77,6 +77,30 @@ namespace XFAedSearch.Views
 				map.MoveToRegion(MapSpan.FromCenterAndRadius(
 					new Position(Settings.RegionLatitude, Settings.RegionLongitude),
 					Distance.FromMeters(Settings.RegionRadius)));
+				
+				mapExBehavior.MapLoaded += (sender, e) =>
+				{
+					// ユーザー位置へ
+					var userLocation = mapExBehavior.UserLocation;
+					map.MoveToRegion(MapSpan.FromCenterAndRadius(
+						userLocation, map.VisibleRegion.Radius));
+
+					// 最初だけ周囲のAEDを検索するよ
+					var vm = (BindingContext as NearAedPageViewModel);
+					if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
+						vm.AedsViewModel.Value.Aeds.Count == 0)
+					{
+						if(vm.SearchNearAedsCommand.CanExecute())
+						{
+							Task.Factory.StartNew(async () =>
+							{
+								await Task.Delay(TimeSpan.FromMilliseconds(1000));
+								Device.BeginInvokeOnMainThread(() =>
+									vm.SearchNearAedsCommand.Execute(map));
+							});
+						}
+					}
+				};
 			}
 
 			MessagingCenter.Subscribe<AedsViewModel, Position>(
@@ -163,24 +187,24 @@ namespace XFAedSearch.Views
 		{
 			base.OnAppearing();
 
-			if(Device.OS != TargetPlatform.Android)
-			{
-				// 最初だけ周囲のAEDを検索するよ
-				var vm = (BindingContext as NearAedPageViewModel);
-				if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
-				  vm.AedsViewModel.Value.Aeds.Count == 0)
-				{
-					if(vm.SearchNearAedsCommand.CanExecute())
-					{
-						Task.Factory.StartNew(async () =>
-						{
-							await Task.Delay(TimeSpan.FromMilliseconds(1000));
-							Device.BeginInvokeOnMainThread(() =>
-							vm.SearchNearAedsCommand.Execute(map));
-						});
-					}
-				}
-			}
+//			if(Device.OS != TargetPlatform.Android)
+//			{
+//				// 最初だけ周囲のAEDを検索するよ
+//				var vm = (BindingContext as NearAedPageViewModel);
+//				if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
+//				  vm.AedsViewModel.Value.Aeds.Count == 0)
+//				{
+//					if(vm.SearchNearAedsCommand.CanExecute())
+//					{
+//						Task.Factory.StartNew(async () =>
+//						{
+//							await Task.Delay(TimeSpan.FromMilliseconds(1000));
+//							Device.BeginInvokeOnMainThread(() =>
+//							vm.SearchNearAedsCommand.Execute(map));
+//						});
+//					}
+//				}
+//			}
 		}
 
 		protected override void OnBindingContextChanged()
