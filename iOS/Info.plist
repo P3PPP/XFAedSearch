@@ -9,7 +9,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
+	<string>1.0.0.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -44,5 +44,7 @@
 	<string>現在位置情報は周辺AEDの検索、またはAEDまでの経路検索のために使用されます。</string>
 	<key>CFBundleName</key>
 	<string>AEDオープンデータ検索</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>ja_JP</string>
 </dict>
 </plist>
