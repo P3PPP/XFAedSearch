@@ -20,6 +20,8 @@ namespace XFMapExtensions.Platform.iOS
 		private MKPolygonRenderer polygonRenderer;
 		private MapExtensionBehavior behavior;
 
+		private bool isFirstTime = true;
+
 		#region implemented abstract members of Effect
 
 		protected override void OnAttached()
@@ -35,6 +37,9 @@ namespace XFMapExtensions.Platform.iOS
 
 			mapView.DidUpdateUserLocation += DidUpdateUserLocation;
 
+			// iOSのMapLoadedは新しいエリアを読み込んだ時に発火する(Androidとは違うっぽい)
+//			mapView.MapLoaded += MapView_MapLoaded;
+
 //			mapView.OverlayRenderer = (mapView, overlay) =>
 //			{
 //				if(polygonRenderer == null)
@@ -47,16 +52,33 @@ namespace XFMapExtensions.Platform.iOS
 //			};
 		}
 
+		void MapView_MapLoaded (object sender, EventArgs e)
+		{
+			MapLoaded?.Invoke(behavior, new EventArgs());
+		}
+
 		private void DidUpdateUserLocation (object sender, MKUserLocationEventArgs e)
 		{
+			if(e.UserLocation == null)
+				return;
+
 			behavior.UserLocation = new Position(
 				e.UserLocation.Coordinate.Latitude,
 				e.UserLocation.Coordinate.Longitude);
+
+			// 暫定的にユーザー位置が初めて更新された時をロード完了として扱う
+			if(isFirstTime)
+			{
+				isFirstTime = false;
+				MapLoaded?.Invoke(behavior, new EventArgs());
+			}
 		}
 
 		protected override void OnDetached()
 		{
 			mapView.DidUpdateUserLocation -= DidUpdateUserLocation;
+			mapView.MapLoaded -= MapView_MapLoaded;
+
 			mapView = null;
 			behavior = null;
 			polygon?.Dispose();
