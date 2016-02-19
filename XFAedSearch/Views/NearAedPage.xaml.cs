@@ -218,6 +218,17 @@ namespace XFAedSearch.Views
 			base.OnDisappearing();
 		}
 
+		protected override bool OnBackButtonPressed()
+		{
+			if(flyOut.IsVisible)
+			{
+				HideFlyout();
+				return true;
+			}
+				
+			return base.OnBackButtonPressed();
+		}
+
 		private void SaveRegion()
 		{
 			Settings.RegionLatitude = map.VisibleRegion.Center.Latitude;
