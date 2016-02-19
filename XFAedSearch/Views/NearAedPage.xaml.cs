@@ -145,7 +145,7 @@ namespace XFAedSearch.Views
 			return;
 		}
 
-		private async void FlyOutButtonClicked(object sender, EventArgs e)
+		private void FlyOutButtonClicked(object sender, EventArgs e)
 		{
 			#if DEBUG
 			radiusLabel.Text = Settings.RegionRadius.ToString() + Environment.NewLine +
@@ -154,32 +154,20 @@ namespace XFAedSearch.Views
 
 			if(flyOut.IsVisible)
 			{
-				await flyOut.TranslateTo(0, flyOut.Height, 300);
-				flyOut.IsVisible = !flyOut.IsVisible;
+				HideFlyout();
 			}
 			else
 			{
-				await flyOut.TranslateTo(0, flyOut.Height, 0);
-				flyOut.IsVisible = !flyOut.IsVisible;
-				await flyOut.TranslateTo(0, 0, 300);
+				ShowFlyout();
 			}
 		}
 
 		private void HamburgerButtonClicked(object sender, EventArgs e)
 		{
-			Element ancestor = this.Parent;
-			while(true)
-			{
-				if(ancestor is MasterDetailPage || ancestor == null)
-				{
-					break;
-				}
-				ancestor = ancestor.Parent;
-			}
-
+			var ancestor = this.FindAncestor<MasterDetailPage>();
 			if(ancestor != null)
 			{
-				(ancestor as MasterDetailPage).IsPresented = !(ancestor as MasterDetailPage).IsPresented;
+				ancestor.IsPresented = !ancestor.IsPresented;
 			}
 		}
 
@@ -248,6 +236,26 @@ namespace XFAedSearch.Views
 				};
 				map.Pins.Add(pin);
 			});
+		}
+
+		private async void ShowFlyout()
+		{
+			if(!flyOut.IsVisible)
+			{
+				flyOut.TranslationX = 0;
+				flyOut.TranslationY = flyOut.Height;
+				flyOut.IsVisible = !flyOut.IsVisible;
+				await flyOut.TranslateTo(0, 0, 300);
+			}
+		}
+
+		private async void HideFlyout()
+		{
+			if(flyOut.IsVisible)
+			{
+				await flyOut.TranslateTo(0, flyOut.Height, 300);
+				flyOut.IsVisible = !flyOut.IsVisible;
+			}
 		}
 	}
 }
