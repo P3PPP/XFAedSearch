@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using XFAedSearch.Views;
+using XFAedSearch.ViewModels;
 
 // 共通コードをPCLにして他プラットーフォームにinternalメンバを公開したい時に使う
 //[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("XFAedSearch.Droid")]
@@ -20,7 +21,11 @@ namespace XFAedSearch
 		public App()
 		{
 			InitializeComponent();
-			MainPage = new RootPage();
+
+			var nearAedPageViewModel = new NearAedPageViewModel();
+			var nearAedPage = new NearAedPage { BindingContext = nearAedPageViewModel };
+			NavigationPage.SetHasNavigationBar(nearAedPage, false);
+			MainPage = new NavigationPage(nearAedPage);
 		}
 
 		protected override void OnStart()

@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 
-using Xamarin.Forms;
-
 namespace XFAedSearch.Droid
 {
 	[Activity(Label = "@string/AppName", Icon = "@drawable/icon", MainLauncher = true,
@@ -32,19 +30,6 @@ namespace XFAedSearch.Droid
 			NControl.Droid.NControlViewRenderer.Init();
 
 			DisplayCrashReport();
-
-			MessagingCenter.Subscribe<XFAedSearch.Views.RootPage, bool>(this,
-				"ActionBarIsVisible", (sender, isVisible) =>
-			{
-				if(isVisible)
-				{
-					ActionBar.Show();
-				}
-				else
-				{
-					ActionBar.Hide();
-				}
-			});
 
 			LoadApplication(new App());
 		}

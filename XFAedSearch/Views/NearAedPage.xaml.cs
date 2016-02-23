@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 using AedOpenDataApiWrapper;
-using System.Threading.Tasks;
-
 using XFAedSearch.Models;
 using XFAedSearch.ViewModels;
 using XFMapExtensions;
@@ -35,6 +34,7 @@ namespace XFAedSearch.Views
 			radiusLabel = new Label{
 				TextColor = Color.Black,
 				BackgroundColor = Color.Silver.MultiplyAlpha(0.2),
+				InputTransparent = true,
 			};
 			relativeLayout.Children.Add(radiusLabel,
 				() => relativeLayout.Width / 2,
@@ -102,6 +102,13 @@ namespace XFAedSearch.Views
 					}
 				};
 			}
+		}
+
+		public void MoveToReagion(MapSpan mapspan) => map.MoveToRegion(mapspan);
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
 
 			MessagingCenter.Subscribe<AedsViewModel, Position>(
 				this,
@@ -133,66 +140,11 @@ namespace XFAedSearch.Views
 				var message = value as string;
 				DisplayAlert("付近のAED検索", message, "OK");
 			});
-		}
 
-		public void MoveToReagion(MapSpan mapspan) => map.MoveToRegion(mapspan);
-
-		private void MoveToCurrentPositionButtonClicked(object sender, EventArgs e)
-		{
-			var userLocation = mapExBehavior.UserLocation;
-			map.MoveToRegion(MapSpan.FromCenterAndRadius(
-				userLocation, map.VisibleRegion.Radius));
-			return;
-		}
-
-		private void FlyOutButtonClicked(object sender, EventArgs e)
-		{
-			#if DEBUG
-			radiusLabel.Text = Settings.RegionRadius.ToString() + Environment.NewLine +
-				map.VisibleRegion.Radius.Meters;
-			#endif
-
-			if(flyOut.IsVisible)
+			if(!map.Behaviors.Contains(mapExBehavior))
 			{
-				HideFlyout();
+				map.Behaviors.Add(mapExBehavior);
 			}
-			else
-			{
-				ShowFlyout();
-			}
-		}
-
-		private void HamburgerButtonClicked(object sender, EventArgs e)
-		{
-			var ancestor = this.FindAncestor<MasterDetailPage>();
-			if(ancestor != null)
-			{
-				ancestor.IsPresented = !ancestor.IsPresented;
-			}
-		}
-
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-
-//			if(Device.OS != TargetPlatform.Android)
-//			{
-//				// 最初だけ周囲のAEDを検索するよ
-//				var vm = (BindingContext as NearAedPageViewModel);
-//				if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
-//				  vm.AedsViewModel.Value.Aeds.Count == 0)
-//				{
-//					if(vm.SearchNearAedsCommand.CanExecute())
-//					{
-//						Task.Factory.StartNew(async () =>
-//						{
-//							await Task.Delay(TimeSpan.FromMilliseconds(1000));
-//							Device.BeginInvokeOnMainThread(() =>
-//							vm.SearchNearAedsCommand.Execute(map));
-//						});
-//					}
-//				}
-//			}
 		}
 
 		protected override void OnBindingContextChanged()
@@ -227,6 +179,43 @@ namespace XFAedSearch.Views
 			}
 				
 			return base.OnBackButtonPressed();
+		}
+
+		private void MoveToCurrentPositionButtonClicked(object sender, EventArgs e)
+		{
+			if(!mapExBehavior.UserLocation.HasValue)
+				return;
+
+			var userLocation = mapExBehavior.UserLocation;
+			map.MoveToRegion(MapSpan.FromCenterAndRadius(
+				userLocation.Value, map.VisibleRegion.Radius));
+		}
+
+		private void FlyOutButtonClicked(object sender, EventArgs e)
+		{
+			#if DEBUG
+			var position = mapExBehavior.UserLocation.HasValue
+				? mapExBehavior.UserLocation.Value
+				: new Position(0,0);
+			radiusLabel.Text = Settings.RegionRadius.ToString() + Environment.NewLine +
+				map.VisibleRegion.Radius.Meters + Environment.NewLine +
+				"(" + position.Latitude + "," + position.Longitude + ")";
+			#endif
+
+			if(flyOut.IsVisible)
+			{
+				HideFlyout();
+			}
+			else
+			{
+				ShowFlyout();
+			}
+		}
+
+		private async void HamburgerButtonClicked(object sender, EventArgs e)
+		{
+			var menuPage = new MenuPage();
+			await Navigation.PushAsync(menuPage);
 		}
 
 		private void SaveRegion()
