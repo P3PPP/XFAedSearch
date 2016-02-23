@@ -27,7 +27,6 @@ namespace XFAedSearch.Droid
 		public static void UpdateIdValues()
 		{
 			global::NGraphics.Android.Resource.String.library_name = global::XFAedSearch.Droid.Resource.String.library_name;
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::XFAedSearch.Droid.Resource.Attribute.actionBarSize;
 			global::Reactive.Bindings.Resource.String.ApplicationName = global::XFAedSearch.Droid.Resource.String.ApplicationName;
 			global::Reactive.Bindings.Resource.String.Hello = global::XFAedSearch.Droid.Resource.String.Hello;
 			global::NControl.Droid.Resource.Animation.abc_fade_in = global::XFAedSearch.Droid.Resource.Animation.abc_fade_in;
@@ -1569,6 +1568,7 @@ namespace XFAedSearch.Droid
 			global::NControl.Droid.Resource.Styleable.ViewStubCompat_android_id = global::XFAedSearch.Droid.Resource.Styleable.ViewStubCompat_android_id;
 			global::NControl.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId = global::XFAedSearch.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
 			global::NControl.Droid.Resource.Styleable.ViewStubCompat_android_layout = global::XFAedSearch.Droid.Resource.Styleable.ViewStubCompat_android_layout;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::XFAedSearch.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation
