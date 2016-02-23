@@ -257,6 +257,7 @@
 
 			<ActivityIndicator IsRunning="{Binding IsUpdating.Value}"
 				   IsVisible="{Binding IsUpdating.Value}"
+				   InputTransparent="false"
 				   HeightRequest="44"
 				   WidthRequest="44"
 				   RelativeLayout.XConstraint =
