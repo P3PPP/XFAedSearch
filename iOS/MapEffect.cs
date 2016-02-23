@@ -7,6 +7,7 @@ using MapKit;
 using CoreLocation;
 using Foundation;
 using XFMapExtensions;
+using UIKit;
 
 [assembly: ResolutionGroupName ("XFMapExtensions")]
 [assembly: ExportEffect (typeof (XFMapExtensions.Platform.iOS.MapEffect), "MapEffect")]
@@ -20,6 +21,7 @@ namespace XFMapExtensions.Platform.iOS
 		private MKPolygonRenderer polygonRenderer;
 		private MapExtensionBehavior behavior;
 
+//		private UITapGestureRecognizer tapGesture;
 		private bool isFirstTime = true;
 
 		#region implemented abstract members of Effect
@@ -35,10 +37,22 @@ namespace XFMapExtensions.Platform.iOS
 			if(behavior == null)
 				return;
 
+//			tapGesture = new UITapGestureRecognizer(() => 
+//			{
+//				Console.WriteLine("MapViewTapped");
+//				MapTapped?.Invoke(this, new EventArgs());
+//			})
+//			{
+//				NumberOfTapsRequired = 1,
+//
+//			};
+//			mapView.AddGestureRecognizer(tapGesture);
+
 			mapView.DidUpdateUserLocation += DidUpdateUserLocation;
 
 			// iOSのMapLoadedは新しいエリアを読み込んだ時に発火する(Androidとは違うっぽい)
 //			mapView.MapLoaded += MapView_MapLoaded;
+
 
 //			mapView.OverlayRenderer = (mapView, overlay) =>
 //			{
@@ -54,7 +68,7 @@ namespace XFMapExtensions.Platform.iOS
 
 		void MapView_MapLoaded (object sender, EventArgs e)
 		{
-			MapLoaded?.Invoke(behavior, new EventArgs());
+			MapLoaded?.Invoke(this, new EventArgs());
 		}
 
 		private void DidUpdateUserLocation (object sender, MKUserLocationEventArgs e)
@@ -78,6 +92,10 @@ namespace XFMapExtensions.Platform.iOS
 		{
 			mapView.DidUpdateUserLocation -= DidUpdateUserLocation;
 			mapView.MapLoaded -= MapView_MapLoaded;
+
+//			mapView.RemoveGestureRecognizer(tapGesture);
+//			tapGesture.Dispose();
+//			tapGesture = null;
 
 			mapView = null;
 			behavior = null;
@@ -127,6 +145,7 @@ namespace XFMapExtensions.Platform.iOS
 		}
 
 		public event EventHandler MapLoaded;
+//		public event EventHandler MapTapped;
 	}
 
 }

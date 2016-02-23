@@ -23,7 +23,7 @@ namespace XFAedSearch.ViewModels
 
 		public ReactiveProperty<bool> IsUpdating { get; private set;}
 
-		public ReactiveProperty<Position> UserLocation { get; private set;}
+		public ReactiveProperty<Position?> UserLocation { get; private set;}
 
 		public ReactiveCommand<Map> SearchNearAedsCommand { get; private set;}
 
@@ -31,16 +31,15 @@ namespace XFAedSearch.ViewModels
 		{
 			AedsViewModel = new ReactiveProperty<AedsViewModel>(new AedsViewModel());
 			IsUpdating = new ReactiveProperty<bool>(false);
-			UserLocation = new ReactiveProperty<Position>(new Position(Settings.RegionLatitude, Settings.RegionLongitude));
+			UserLocation = new ReactiveProperty<Position?>(null);
 			SearchNearAedsCommand = IsUpdating.Select(x => !x).ToReactiveCommand<Map>();
 
 			SearchNearAedsCommand.Subscribe(async map =>
 			{
 				if(map?.VisibleRegion != null)
 				{
-					var position = UserLocation.Value;
-					Settings.RegionLatitude = position.Latitude;
-					Settings.RegionLongitude = position.Longitude;
+					Settings.RegionLatitude = map.VisibleRegion.Center.Latitude;
+					Settings.RegionLongitude = map.VisibleRegion.Center.Longitude;
 					Settings.RegionRadius = map.VisibleRegion.Radius.Meters;
 				}
 
@@ -53,12 +52,17 @@ namespace XFAedSearch.ViewModels
 			if(IsUpdating.Value)
 				return;
 
+			if(UserLocation.Value == null)
+			{
+				Device.BeginInvokeOnMainThread(() =>
+					SendSearchNearAedsFailed("UserLocationMissingMessage"));
+				return;
+			}
+
 			IsUpdating.Value = true;
 
-			var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-
 			var radius = Settings.RegionRadius;
-			var position = UserLocation.Value;
+			var position = UserLocation.Value.Value;
 
 			Task<List<AedInfo>> nearestAedTask;
 			Task<List<AedInfo>> nearAedsTask;
@@ -76,13 +80,18 @@ namespace XFAedSearch.ViewModels
 				IsUpdating.Value = false;
 
 				Console.WriteLine(exception);
-				Console.WriteLine($"{stopwatch.ElapsedMilliseconds} ms");
-				Console.WriteLine(@"Message published: key=""/SearchNearAeds/?Result=Failed"":AedApiRequestFailedMessage");
+				Device.BeginInvokeOnMainThread(() => 
+					SendSearchNearAedsFailed("AedApiRequestFailedMessage"));
+				return;
+			}
+
+			if(nearAedsTask.Result.Count == 0 &&
+				nearestAedTask.Result.First().Distance > Settings.MaxRadius)
+			{
+				IsUpdating.Value = false;
+
 				Device.BeginInvokeOnMainThread(() =>
-				{
-					MessagingCenter.Send(this, "/SearchNearAeds/?Result=Failed",
-						"AedApiRequestFailedMessage");
-				});
+					SendSearchNearAedsFailed("AedNotFoundMessage"));
 				return;
 			}
 
@@ -98,6 +107,13 @@ namespace XFAedSearch.ViewModels
 			});
 
 			IsUpdating.Value = false;
+		}
+
+		private void SendSearchNearAedsFailed(string messageKey)
+		{
+			MessagingCenter.Send(this,
+				"/SearchNearAeds/?Result=Failed",
+				messageKey);
 		}
 	}
 }

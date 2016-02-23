@@ -20,6 +20,9 @@ namespace XFMapExtensions
 		{
 			base.OnAttachedTo(bindable);
 
+			if(bindable as Map == null)
+				return;
+
 			associated = bindable;
 			BindingContext = bindable.BindingContext;
 			bindable.BindingContextChanged += Bindable_BindingContextChanged;
@@ -27,9 +30,9 @@ namespace XFMapExtensions
 			mapEffect = new MapEffect();
 			toNotify = InnerField.GetValue(mapEffect) as IPlatformMapEffect;
 			toNotify.MapLoaded += (sender, e) => this.MapLoaded?.Invoke(this, new EventArgs());
+//			toNotify.MapTapped += (sender, e) => this.MapTapped?.Invoke(this, new EventArgs());
 
 			bindable.Effects.Add (mapEffect);
-
 		}
 
 		protected override void OnDetachingFrom(Map bindable)
@@ -50,23 +53,24 @@ namespace XFMapExtensions
 		}
 
 		public event EventHandler MapLoaded;
+//		public event EventHandler MapTapped;
 
 		#region BindableProperties
 
 		public static readonly BindableProperty UserLocationProperty =
-			BindableProperty.Create("UserLocation", typeof(Position), typeof(MapExtensionBehavior), default(Position),
+			BindableProperty.Create("UserLocation", typeof(Position?), typeof(MapExtensionBehavior), default(Position?),
 				propertyChanged: (bindable, oldValue, newValue) =>
-				((MapExtensionBehavior)bindable).OnAttachedPropertyChanged(UserLocationProperty.PropertyName));
+				((MapExtensionBehavior)bindable).OnPropertyChanged(UserLocationProperty.PropertyName));
 
-		public Position UserLocation
+		public Position? UserLocation
 		{
-			get { return (Position)GetValue(UserLocationProperty); }
+			get { return (Position?)GetValue(UserLocationProperty); }
 			set { SetValue(UserLocationProperty, value); }
 		}
 
 		#endregion
 
-		private void OnAttachedPropertyChanged(string propertyName)
+		private void OnPropertyChanged(string propertyName)
 		{
 			toNotify?.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
 		}
@@ -76,6 +80,7 @@ namespace XFMapExtensions
 		{
 			void OnPropertyChanged(PropertyChangedEventArgs e);
 			event EventHandler MapLoaded;
+//			event EventHandler MapTapped;
 		}
 
 		private class MapEffect : RoutingEffect

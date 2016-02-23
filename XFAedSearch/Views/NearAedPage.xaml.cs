@@ -47,29 +47,10 @@ namespace XFAedSearch.Views
 			radiusLabel.Text = Settings.RegionRadius.ToString();
 			#endif
 
+
 			if(Device.OS == TargetPlatform.Android)
 			{
-				// AndroidはMapのロード完了前にRegion移動すると可視範囲(ズーム)が指定どおりにならない問題への対処
-				mapExBehavior.MapLoaded += (sender, e) =>
-				{
-					// 前回マップに表示していた位置を復元はEffectでやる
-
-					// 最初だけ周囲のAEDを検索するよ
-					var vm = (BindingContext as NearAedPageViewModel);
-					if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
-					   vm.AedsViewModel.Value.Aeds.Count == 0)
-					{
-						if(vm.SearchNearAedsCommand.CanExecute())
-						{
-							Task.Factory.StartNew(async () =>
-							{
-								await Task.Delay(TimeSpan.FromMilliseconds(1000));
-								Device.BeginInvokeOnMainThread(() =>
-									vm.SearchNearAedsCommand.Execute(map));
-							});
-						}
-					}
-				};
+				// 前回マップに表示していた位置を復元はEffectでやる
 			}
 			else
 			{
@@ -77,30 +58,6 @@ namespace XFAedSearch.Views
 				map.MoveToRegion(MapSpan.FromCenterAndRadius(
 					new Position(Settings.RegionLatitude, Settings.RegionLongitude),
 					Distance.FromMeters(Settings.RegionRadius)));
-				
-				mapExBehavior.MapLoaded += (sender, e) =>
-				{
-					// ユーザー位置へ
-					var userLocation = mapExBehavior.UserLocation;
-					map.MoveToRegion(MapSpan.FromCenterAndRadius(
-						userLocation, map.VisibleRegion.Radius));
-
-					// 最初だけ周囲のAEDを検索するよ
-					var vm = (BindingContext as NearAedPageViewModel);
-					if(vm != null && vm.AedsViewModel.Value.Aeds == null ||
-						vm.AedsViewModel.Value.Aeds.Count == 0)
-					{
-						if(vm.SearchNearAedsCommand.CanExecute())
-						{
-							Task.Factory.StartNew(async () =>
-							{
-								await Task.Delay(TimeSpan.FromMilliseconds(1000));
-								Device.BeginInvokeOnMainThread(() =>
-									vm.SearchNearAedsCommand.Execute(map));
-							});
-						}
-					}
-				};
 			}
 		}
 
@@ -151,11 +108,38 @@ namespace XFAedSearch.Views
 		{
 			base.OnBindingContextChanged();
 
-			var aeds = (BindingContext as NearAedPageViewModel)?.AedsViewModel?.Value?.Aeds;
+			var vm = (BindingContext as NearAedPageViewModel);
+			if(vm == null)
+				return;
+			
+			var aeds = vm.AedsViewModel?.Value?.Aeds;
 			if(aeds != null )
 			{
 				UpdatePins(aeds);
 			}
+
+			bool firstTime = true;
+			vm.UserLocation.PropertyChanged += (sender, e) => 
+			{
+				if(e.PropertyName != "Value" || !firstTime)
+					return;
+
+				firstTime = false;
+
+				// ユーザー位置へ
+				map.MoveToRegion(MapSpan.FromCenterAndRadius(
+					vm.UserLocation.Value.Value, map.VisibleRegion.Radius));
+
+				if(vm.SearchNearAedsCommand.CanExecute())
+				{
+					Task.Factory.StartNew(async () =>
+					{
+						await Task.Delay(TimeSpan.FromMilliseconds(1000));
+						Device.BeginInvokeOnMainThread(() =>
+							vm.SearchNearAedsCommand.Execute(map));
+					});
+				}
+			};
 		}
 
 		protected override void OnDisappearing()

@@ -27,6 +27,9 @@ namespace XFAedSearch.Models
 		const string RegionRadiusKey = "RegionRadius";
 		private static readonly double RegionRadiusDefault = 250;
 
+		const string MaxRadiusKey = "MaxRadius";
+		private static readonly double MaxRadiusDefault = 2000;
+
 		#endregion
 
 
@@ -46,6 +49,12 @@ namespace XFAedSearch.Models
 		{
 			get { return AppSettings.GetValueOrDefault<double>(RegionRadiusKey, RegionRadiusDefault); }
 			set { AppSettings.AddOrUpdateValue<double>(RegionRadiusKey, value); }
+		}
+
+		public static double MaxRadius
+		{
+			get { return AppSettings.GetValueOrDefault<double>(MaxRadiusKey, MaxRadiusDefault); }
+			set { AppSettings.AddOrUpdateValue<double>(MaxRadiusKey, value); }
 		}
 	}
 }
