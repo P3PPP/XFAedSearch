@@ -47,18 +47,10 @@ namespace XFAedSearch.Views
 			radiusLabel.Text = Settings.RegionRadius.ToString();
 			#endif
 
-
-			if(Device.OS == TargetPlatform.Android)
-			{
-				// 前回マップに表示していた位置を復元はEffectでやる
-			}
-			else
-			{
-				// 前回マップに表示していた位置を復元
-				map.MoveToRegion(MapSpan.FromCenterAndRadius(
-					new Position(Settings.RegionLatitude, Settings.RegionLongitude),
-					Distance.FromMeters(Settings.RegionRadius)));
-			}
+			// 前回マップに表示していた位置を復元
+			map.MoveToRegion(MapSpan.FromCenterAndRadius(
+				new Position(Settings.RegionLatitude, Settings.RegionLongitude),
+				Distance.FromMeters(Settings.RegionRadius)));
 		}
 
 		public void MoveToReagion(MapSpan mapspan) => map.MoveToRegion(mapspan);
@@ -228,8 +220,8 @@ namespace XFAedSearch.Views
 			{
 				flyOut.TranslationX = 0;
 				flyOut.TranslationY = flyOut.Height;
-				flyOut.IsVisible = !flyOut.IsVisible;
 				await flyOut.TranslateTo(0, 0, 300);
+				flyOut.IsVisible = !flyOut.IsVisible;
 			}
 		}
 
