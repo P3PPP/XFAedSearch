@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <resources> 
-	<style name="NoActionBar" parent="@android:Theme.Holo">
-		<item name="android:windowFullscreen">true</item> 
 	<style name="Theme.Splash" parent="android:Theme">
 		<item name="android:windowBackground">@layout/splashscreen</item>
 		<item name="android:windowNoTitle">true</item>
@@ -9,5 +7,13 @@
 		<item name="android:windowIsFloating">false</item>
 		<item name="android:backgroundDimEnabled">true</item>
 	</style>
+	<style name="MyTheme" parent="MyTheme.Base">
+	</style>
+	<style name="MyTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="colorPrimary">@color/primary</item>
+		<item name="colorPrimaryDark">@color/primaryDark</item>
+<!--		<item name="textColorPrimary">@color/textPrimary</item>-->
+		<item name="colorAccent">@color/accent</item>
+		<item name="android:windowBackground">@color/window_background</item>
 	</style>
 </resources>

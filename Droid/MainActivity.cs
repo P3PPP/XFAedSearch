@@ -13,12 +13,15 @@ using System.Diagnostics;
 
 namespace XFAedSearch.Droid
 {
-	[Activity(Label = "@string/AppName", Icon = "@drawable/icon",
+	[Activity(Label = "@string/AppName", Icon = "@drawable/icon", Theme = "@style/MyTheme",
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
+			global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity.ToolbarResource = Resource.Layout.toolbar;
+			global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity.TabLayoutResource = Resource.Layout.tabs;
+
 			base.OnCreate(bundle);
 
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;

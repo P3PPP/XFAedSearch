@@ -5,6 +5,9 @@
 			 x:Class="XFAedSearch.Views.AboutPage">
 	<ContentPage.Resources>
 		<ResourceDictionary>
+			<Style TargetType="Label">
+				<Setter Property="TextColor" Value="Black" />
+			</Style>
 		</ResourceDictionary>
 	</ContentPage.Resources>
 
