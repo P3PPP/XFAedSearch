@@ -220,8 +220,8 @@ namespace XFAedSearch.Views
 			{
 				flyOut.TranslationX = 0;
 				flyOut.TranslationY = flyOut.Height;
-				await flyOut.TranslateTo(0, 0, 300);
 				flyOut.IsVisible = !flyOut.IsVisible;
+				await flyOut.TranslateTo(0, 0, 300);
 			}
 		}
 
