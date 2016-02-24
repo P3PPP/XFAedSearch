@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace XFAedSearch.Droid
 {
-	[Activity(Label = "@string/AppName", Icon = "@drawable/icon", MainLauncher = true,
+	[Activity(Label = "@string/AppName", Icon = "@drawable/icon",
 		ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{

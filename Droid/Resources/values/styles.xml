@@ -2,5 +2,12 @@
 <resources> 
 	<style name="NoActionBar" parent="@android:Theme.Holo">
 		<item name="android:windowFullscreen">true</item> 
+	<style name="Theme.Splash" parent="android:Theme">
+		<item name="android:windowBackground">@layout/splashscreen</item>
+		<item name="android:windowNoTitle">true</item>
+		<item name="android:windowIsTranslucent">false</item>
+		<item name="android:windowIsFloating">false</item>
+		<item name="android:backgroundDimEnabled">true</item>
+	</style>
 	</style>
 </resources>

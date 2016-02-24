@@ -3566,7 +3566,7 @@ namespace XFAedSearch.Droid
 			public const int mr_ic_settings_light = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int notification_template_icon_bg = 2130837629;
+			public const int SplashIcon = 2130837629;
 			
 			static Drawable()
 			{
@@ -4172,7 +4172,7 @@ namespace XFAedSearch.Droid
 			public const int select_dialog_singlechoice_material = 2130903086;
 			
 			// aapt resource value: 0x7f03002f
-			public const int support_simple_spinner_dropdown_item = 2130903087;
+			public const int SplashScreen = 2130903087;
 			
 			static Layout()
 			{
@@ -5132,6 +5132,9 @@ namespace XFAedSearch.Droid
 			
 			// aapt resource value: 0x7f090001
 			public const int Theme_MediaRouter_Light = 2131296257;
+			
+			// aapt resource value: 0x7f090144
+			public const int Theme_Splash = 2131296580;
 			
 			// aapt resource value: 0x7f0900fd
 			public const int ThemeOverlay_AppCompat = 2131296509;
