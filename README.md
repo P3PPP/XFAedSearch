@@ -13,4 +13,8 @@ Xamarin.Forms製 AED検索アプリ
 
 2016/2/13 : iOS版審査提出
 
-2016/2/17 : Android Beta公開 https://play.google.com/apps/testing/net.p3ppp.xfaedsearch
+2016/2/24 : Android [Google Play Store公開](https://play.google.com/store/apps/details?id=net.p3ppp.xfaedsearch&hl=ja)
+
+http://ticktack.hatenablog.jp/entry/2016/02/25/144831
+
+
