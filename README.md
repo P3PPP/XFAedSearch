@@ -1,20 +1,34 @@
-# XFAedSearch (work in progress)
+# AEDオープンデータ検索 (XFAedSearch)
 
-Xamarin.Forms製 AED検索アプリ
+「AEDオープンデータ検索」は近くにあるAEDの位置を表示する __Xamarin.Forms__ 製アプリです。
+このアプリが参照するAEDの位置情報は AEDオープンデータプラットフォーム(http://hatsunejournal.jp/w8/AEDOpendata/)
+に登録されたデータ(各自治体が提供している物)に基づきます。
+このアプリは日本国内でのみ動作するアプリケーションです。
 
-現在地付近のAEDを表示する。
+## 機能
 
-元データはAEDオープンデータプラットフォーム(http://hatsunejournal.jp/w8/AEDOpendata/)
+現在地周辺のAEDを表示します。登録されたAEDがすぐ近くに無い場合でも、半径約2km以内の一番近いAEDを表示します。
 
-動かすとこんな感じ
+<img src="screenshots/Screenshot_iOS.jpg" alt="iOS" width="220" />
+<img src="screenshots/Screenshot_Android.png" alt="Android" width="220" />
 
-<blockquote class="twitter-tweet" data-lang="ja"><p lang="ja" dir="ltr">開発再開したAED検索アプリ、こんな感じになった <a href="https://t.co/K7ySjNL2tl">pic.twitter.com/K7ySjNL2tl</a></p>&mdash; たまにXamarin.Forms解説マン (@ticktackmobile) <a href="https://twitter.com/ticktackmobile/status/697370884554760193">2016, 2月 10</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+## ダウンロード
 
-2016/2/13 : iOS版審査提出
+各ストアにて開中
 
-2016/2/24 : Android [Google Play Store公開](https://play.google.com/store/apps/details?id=net.p3ppp.xfaedsearch&hl=ja)
+__iOS__
 
-http://ticktack.hatenablog.jp/entry/2016/02/25/144831
+<a href="https://geo.itunes.apple.com/jp/app/aedopundeta-jian-suo/id1083912767?mt=8" style="display:inline-block;overflow:hidden;background:url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg) no-repeat;width:165px;height:40px;"></a>
 
+__Android__
+
+<a href="https://play.google.com/store/apps/details?id=net.p3ppp.xfaedsearch&hl=ja&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1"><img alt="Get it on Google Play" height="45" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" /></a>
+
+## Author
+
+[@ticktackmobile](https://twitter.com/ticktackmobile)
+
+## LICENSE
+
+[MIT License](LICENSE)
 
