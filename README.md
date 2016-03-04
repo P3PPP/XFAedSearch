@@ -2,7 +2,7 @@
 
 「AEDオープンデータ検索」は近くにあるAEDの位置を表示する __Xamarin.Forms__ 製アプリです。
 このアプリが参照するAEDの位置情報は AEDオープンデータプラットフォーム(http://hatsunejournal.jp/w8/AEDOpendata/)
-に登録されたデータ(各自治体が提供している物)に基づきます。
+に登録されたデータ(各自治体が提供している物)に基づきます。
 このアプリは日本国内でのみ動作するアプリケーションです。
 
 ## 機能
@@ -18,7 +18,7 @@
 
 __iOS__
 
-<a href="https://geo.itunes.apple.com/jp/app/aedopundeta-jian-suo/id1083912767?mt=8" style="display:inline-block;overflow:hidden;background:url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg) no-repeat;width:165px;height:40px;"></a>
+<a href="https://geo.itunes.apple.com/jp/app/aedopundeta-jian-suo/id1083912767?mt=8"><img src="screenshots/badge_appstore-lrg.png" /></a>
 
 __Android__
 
