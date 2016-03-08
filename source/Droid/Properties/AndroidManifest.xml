@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.1" package="net.p3ppp.xfaedsearch" android:versionCode="3">
 	<uses-sdk android:minSdkVersion="21" />
 	<application android:label="AedSearch">
-		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCWiHtHOFLixu7bndJjY46MBkSHb6Zd71Y" />
+		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AbCdEfGhIjKlMnOpQrStUvWValueGoesHere" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
